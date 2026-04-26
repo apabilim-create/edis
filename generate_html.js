@@ -76,8 +76,11 @@ let modalHtml = '';
 for (const [categoryName, items] of Object.entries(categories)) {
     if(items.length === 0) continue;
     
+    // Create URL-safe ID for anchor links
+    const catId = categoryName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    
     categoryHtml += `
-        <div class="mb-10">
+        <div id="${catId}" class="mb-10 pt-24 -mt-16">
             <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2 flex items-center gap-2">
                 <span class="material-symbols-outlined text-orange-500">category</span>
                 ${categoryName}
@@ -86,13 +89,15 @@ for (const [categoryName, items] of Object.entries(categories)) {
     `;
     
     items.forEach(p => {
+        // Deep shadow: shadow-[0_10px_40px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] hover:-translate-y-2
         categoryHtml += `
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('${p.id}')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('${p.id}')">
                         <img alt="${p.title}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="${p.img}"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">${p.price}</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="${p.title}" onclick="openModal('${p.id}')">${p.title}</h4>
                         <button onclick="openModal('${p.id}')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -162,7 +167,6 @@ const fullHtml = `<!DOCTYPE html>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <style>
-        /* Hafif griye çalan kırık beyaz zemin */
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f2f3f5; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -185,21 +189,21 @@ const fullHtml = `<!DOCTYPE html>
     </script>
 </head>
 <body class="text-gray-800 antialiased min-h-screen flex flex-col">
-    <div class="bg-orange-500 text-white text-center py-2 text-sm font-semibold tracking-wide">
+    <div class="bg-orange-500 text-white text-center py-2 text-sm font-semibold tracking-wide shadow-md relative z-50">
         Süper Fırsat Günleri Başladı! Tüm Ürünlerde Ücretsiz Kargo
     </div>
 
-    <header class="bg-white sticky top-0 z-50 shadow-sm">
+    <header class="bg-white sticky top-0 z-40 shadow-sm border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
-                    <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">E</div>
+                    <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-orange-500/30">E</div>
                     <span class="font-extrabold text-2xl text-gray-900 tracking-tight">edis<span class="text-orange-500">.</span></span>
                 </div>
                 
                 <div class="hidden md:flex flex-1 max-w-xl mx-8">
                     <div class="relative w-full">
-                        <input type="text" class="w-full bg-gray-100 border-transparent rounded-full py-2.5 pl-5 pr-12 text-sm focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none" placeholder="Ürün, kategori veya marka ara...">
+                        <input type="text" class="w-full bg-gray-50 border-gray-200 border rounded-full py-2.5 pl-5 pr-12 text-sm focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none" placeholder="Ürün, kategori veya marka ara...">
                         <button class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500">
                             <span class="material-symbols-outlined">search</span>
                         </button>
@@ -224,31 +228,42 @@ const fullHtml = `<!DOCTYPE html>
             </div>
         </div>
         
-        <!-- Menü her ekranda görünür yapıldı (overflow-x-auto eklendi) -->
-        <nav class="border-t border-gray-100 bg-white">
+        <nav class="bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
-                <ul class="flex space-x-6 md:space-x-8 text-sm font-semibold text-gray-600 h-14 items-center whitespace-nowrap min-w-max">
-                    <li><a href="#urunler" class="hover:text-orange-500 transition-colors text-orange-500 border-b-2 border-orange-500 py-4">Ürünlerimiz</a></li>
-                    <li><a href="#" class="hover:text-orange-500 transition-colors">Firmamız</a></li>
-                    <li><a href="#" class="hover:text-orange-500 transition-colors">Markalarımız</a></li>
+                <ul class="flex text-sm font-semibold text-gray-600 h-14 items-center whitespace-nowrap min-w-max gap-8">
+                    <li><a href="#urunler" class="hover:text-orange-500 transition-colors text-orange-500 border-b-2 border-orange-500 py-4 block">Ürünlerimiz</a></li>
+                    
+                    <!-- Kategoriler Menu with Dropdown -->
+                    <li class="relative group cursor-pointer py-4">
+                        <span class="hover:text-orange-500 transition-colors flex items-center gap-1">
+                            Kategoriler <span class="material-symbols-outlined text-sm">expand_more</span>
+                        </span>
+                        <div class="absolute top-[56px] left-0 w-56 bg-white border border-gray-100 shadow-2xl rounded-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left group-hover:translate-y-0 translate-y-2 z-50">
+                            <a href="#soframutfak" class="block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🍽️ Sofra & Mutfak</a>
+                            <a href="#evtekstili" class="block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🛋️ Ev Tekstili</a>
+                            <a href="#elektriklievaletleri" class="block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🔌 Elektrikli Ev Aletleri</a>
+                        </div>
+                    </li>
+                    
+                    <li><a href="#" class="hover:text-orange-500 transition-colors py-4 block">Markalarımız</a></li>
                     <li><a href="#" class="hover:text-orange-500 transition-colors text-orange-600 font-bold bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-100">Toptan Satış</a></li>
-                    <li><a href="#" class="hover:text-orange-500 transition-colors">İletişim</a></li>
-                    <li class="md:ml-auto text-orange-600 flex items-center gap-1 font-bold pl-4 border-l border-gray-200"><span class="material-symbols-outlined text-sm">local_shipping</span> Kargo Bedava</li>
+                    <li><a href="#" class="hover:text-orange-500 transition-colors py-4 block">İletişim</a></li>
+                    <li class="md:ml-auto text-orange-600 flex items-center gap-1 font-bold pl-4 md:border-l md:border-gray-200"><span class="material-symbols-outlined text-sm">local_shipping</span> Kargo Bedava</li>
                 </ul>
             </div>
         </nav>
     </header>
 
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <div class="mb-12 rounded-3xl overflow-hidden shadow-sm relative bg-orange-50">
+        <div class="mb-12 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.05)] relative bg-orange-50 border border-orange-100">
             <div class="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-400 opacity-10"></div>
             <div class="px-8 py-12 md:py-16 relative z-10 flex flex-col md:flex-row items-center justify-between">
                 <div class="text-center md:text-left mb-6 md:mb-0">
-                    <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Ev & Yaşam<br/><span class="text-orange-500">Bahar Fırsatları</span></h2>
+                    <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Ev & Yaşam<br/><span class="text-orange-500 drop-shadow-sm">Bahar Fırsatları</span></h2>
                     <p class="text-gray-600 font-medium text-lg max-w-md">Edis mağazasında muhteşem indirimleri kaçırmayın.</p>
                 </div>
                 <div>
-                    <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/40 transition-transform active:scale-95">
+                    <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-[0_10px_30px_rgba(242,122,26,0.4)] transition-transform active:scale-95 hover:-translate-y-1">
                         Alışverişe Başla
                     </button>
                 </div>
@@ -270,14 +285,14 @@ const fullHtml = `<!DOCTYPE html>
         ${modalHtml}
     </div>
 
-    <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-white border-t border-gray-200 pb-safe pt-2 px-4 flex justify-around shadow-[0_-4px_10px_rgba(0,0,0,0.05)] text-[10px] font-bold text-gray-500">
+    <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-white border-t border-gray-200 pb-safe pt-2 px-4 flex justify-around shadow-[0_-10px_30px_rgba(0,0,0,0.08)] text-[10px] font-bold text-gray-500">
         <a href="#urunler" class="flex flex-col items-center p-2 text-orange-500">
             <span class="material-symbols-outlined text-2xl mb-1">home</span>
             Anasayfa
         </a>
         <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
-            <span class="material-symbols-outlined text-2xl mb-1">search</span>
-            Ara
+            <span class="material-symbols-outlined text-2xl mb-1">category</span>
+            Kategoriler
         </a>
         <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
             <span class="material-symbols-outlined text-2xl mb-1">store</span>
@@ -292,4 +307,4 @@ const fullHtml = `<!DOCTYPE html>
 </html>`;
 
 fs.writeFileSync('C:\\Users\\Mustafa\\.gemini\\antigravity\\scratch\\edis\\index.html', fullHtml, 'utf-8');
-console.log('Successfully updated index.html with cover images, off-white background, and visible menus including Toptan Satis.');
+console.log('Successfully updated index.html with drop shadows and Kategoriler menu.');

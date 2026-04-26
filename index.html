@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <style>
-        /* Hafif griye çalan kırık beyaz zemin */
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f2f3f5; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -31,21 +30,21 @@
     </script>
 </head>
 <body class="text-gray-800 antialiased min-h-screen flex flex-col">
-    <div class="bg-orange-500 text-white text-center py-2 text-sm font-semibold tracking-wide">
+    <div class="bg-orange-500 text-white text-center py-2 text-sm font-semibold tracking-wide shadow-md relative z-50">
         Süper Fırsat Günleri Başladı! Tüm Ürünlerde Ücretsiz Kargo
     </div>
 
-    <header class="bg-white sticky top-0 z-50 shadow-sm">
+    <header class="bg-white sticky top-0 z-40 shadow-sm border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
-                    <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">E</div>
+                    <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-orange-500/30">E</div>
                     <span class="font-extrabold text-2xl text-gray-900 tracking-tight">edis<span class="text-orange-500">.</span></span>
                 </div>
                 
                 <div class="hidden md:flex flex-1 max-w-xl mx-8">
                     <div class="relative w-full">
-                        <input type="text" class="w-full bg-gray-100 border-transparent rounded-full py-2.5 pl-5 pr-12 text-sm focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none" placeholder="Ürün, kategori veya marka ara...">
+                        <input type="text" class="w-full bg-gray-50 border-gray-200 border rounded-full py-2.5 pl-5 pr-12 text-sm focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none" placeholder="Ürün, kategori veya marka ara...">
                         <button class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500">
                             <span class="material-symbols-outlined">search</span>
                         </button>
@@ -70,31 +69,42 @@
             </div>
         </div>
         
-        <!-- Menü her ekranda görünür yapıldı (overflow-x-auto eklendi) -->
-        <nav class="border-t border-gray-100 bg-white">
+        <nav class="bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
-                <ul class="flex space-x-6 md:space-x-8 text-sm font-semibold text-gray-600 h-14 items-center whitespace-nowrap min-w-max">
-                    <li><a href="#urunler" class="hover:text-orange-500 transition-colors text-orange-500 border-b-2 border-orange-500 py-4">Ürünlerimiz</a></li>
-                    <li><a href="#" class="hover:text-orange-500 transition-colors">Firmamız</a></li>
-                    <li><a href="#" class="hover:text-orange-500 transition-colors">Markalarımız</a></li>
+                <ul class="flex text-sm font-semibold text-gray-600 h-14 items-center whitespace-nowrap min-w-max gap-8">
+                    <li><a href="#urunler" class="hover:text-orange-500 transition-colors text-orange-500 border-b-2 border-orange-500 py-4 block">Ürünlerimiz</a></li>
+                    
+                    <!-- Kategoriler Menu with Dropdown -->
+                    <li class="relative group cursor-pointer py-4">
+                        <span class="hover:text-orange-500 transition-colors flex items-center gap-1">
+                            Kategoriler <span class="material-symbols-outlined text-sm">expand_more</span>
+                        </span>
+                        <div class="absolute top-[56px] left-0 w-56 bg-white border border-gray-100 shadow-2xl rounded-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left group-hover:translate-y-0 translate-y-2 z-50">
+                            <a href="#soframutfak" class="block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🍽️ Sofra & Mutfak</a>
+                            <a href="#evtekstili" class="block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🛋️ Ev Tekstili</a>
+                            <a href="#elektriklievaletleri" class="block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🔌 Elektrikli Ev Aletleri</a>
+                        </div>
+                    </li>
+                    
+                    <li><a href="#" class="hover:text-orange-500 transition-colors py-4 block">Markalarımız</a></li>
                     <li><a href="#" class="hover:text-orange-500 transition-colors text-orange-600 font-bold bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-100">Toptan Satış</a></li>
-                    <li><a href="#" class="hover:text-orange-500 transition-colors">İletişim</a></li>
-                    <li class="md:ml-auto text-orange-600 flex items-center gap-1 font-bold pl-4 border-l border-gray-200"><span class="material-symbols-outlined text-sm">local_shipping</span> Kargo Bedava</li>
+                    <li><a href="#" class="hover:text-orange-500 transition-colors py-4 block">İletişim</a></li>
+                    <li class="md:ml-auto text-orange-600 flex items-center gap-1 font-bold pl-4 md:border-l md:border-gray-200"><span class="material-symbols-outlined text-sm">local_shipping</span> Kargo Bedava</li>
                 </ul>
             </div>
         </nav>
     </header>
 
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <div class="mb-12 rounded-3xl overflow-hidden shadow-sm relative bg-orange-50">
+        <div class="mb-12 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.05)] relative bg-orange-50 border border-orange-100">
             <div class="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-400 opacity-10"></div>
             <div class="px-8 py-12 md:py-16 relative z-10 flex flex-col md:flex-row items-center justify-between">
                 <div class="text-center md:text-left mb-6 md:mb-0">
-                    <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Ev & Yaşam<br/><span class="text-orange-500">Bahar Fırsatları</span></h2>
+                    <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Ev & Yaşam<br/><span class="text-orange-500 drop-shadow-sm">Bahar Fırsatları</span></h2>
                     <p class="text-gray-600 font-medium text-lg max-w-md">Edis mağazasında muhteşem indirimleri kaçırmayın.</p>
                 </div>
                 <div>
-                    <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/40 transition-transform active:scale-95">
+                    <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-[0_10px_30px_rgba(242,122,26,0.4)] transition-transform active:scale-95 hover:-translate-y-1">
                         Alışverişe Başla
                     </button>
                 </div>
@@ -103,19 +113,20 @@
 
         <section id="urunler">
             
-        <div class="mb-10">
+        <div id="soframutfak" class="mb-10 pt-24 -mt-16">
             <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2 flex items-center gap-2">
                 <span class="material-symbols-outlined text-orange-500">category</span>
                 Sofra & Mutfak
             </h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_0')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_0')">
                         <img alt="English Home Comely Seramik Kahvaltı Takımı 32 parça 6 kişilik Renkli" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/24602a90-8418-37e5-883c-0c8778c5b4c7/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">3.725 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Comely Seramik Kahvaltı Takımı 32 parça 6 kişilik Renkli" onclick="openModal('prod_0')">English Home Comely Seramik Kahvaltı Takımı 32 parça 6 kişilik Renkli</h4>
                         <button onclick="openModal('prod_0')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -123,12 +134,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_1')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_1')">
                         <img alt="English Home Cosmos Seramik Kahvaltı Takımı 14 parça 6 kişilik Lacivert" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1829/prod/QC_ENRICHMENT/20260218/18/af3228d7-b4f7-3f5b-aefe-41aed872d7a9/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.999 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Cosmos Seramik Kahvaltı Takımı 14 parça 6 kişilik Lacivert" onclick="openModal('prod_1')">English Home Cosmos Seramik Kahvaltı Takımı 14 parça 6 kişilik Lacivert</h4>
                         <button onclick="openModal('prod_1')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -136,12 +148,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_2')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_2')">
                         <img alt="English Home Splash Seramik Kahvaltı Takımı 10 parça 4 kişilik Kırmızı-Pembe" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/0a3610ac-33e1-3375-9262-b2ffe1b0ad47/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.229 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Splash Seramik Kahvaltı Takımı 10 parça 4 kişilik Kırmızı-Pembe" onclick="openModal('prod_2')">English Home Splash Seramik Kahvaltı Takımı 10 parça 4 kişilik Kırmızı-Pembe</h4>
                         <button onclick="openModal('prod_2')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -149,12 +162,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_3')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_3')">
                         <img alt="English Home Linea Seramik Kahvaltı Takımı 14 parça 6 kişilik Renkli" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/67eadadc-33df-3328-a42d-ae8e416e4033/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.845 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Linea Seramik Kahvaltı Takımı 14 parça 6 kişilik Renkli" onclick="openModal('prod_3')">English Home Linea Seramik Kahvaltı Takımı 14 parça 6 kişilik Renkli</h4>
                         <button onclick="openModal('prod_3')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -162,12 +176,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_4')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_4')">
                         <img alt="English Home Cloves Seramik Kahvaltı Takımı 32 parça 6 kişilik Pembe" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1849/prod/QC_ENRICHMENT/20260403/22/3a8f7ad1-6b4d-36bf-869b-eee4cdc0f7a1/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">2.318 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Cloves Seramik Kahvaltı Takımı 32 parça 6 kişilik Pembe" onclick="openModal('prod_4')">English Home Cloves Seramik Kahvaltı Takımı 32 parça 6 kişilik Pembe</h4>
                         <button onclick="openModal('prod_4')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -175,12 +190,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_5')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_5')">
                         <img alt="English Home Elena Seramik Yemek Takımı 16 Parça 4 Kişilik Yeşil-Turuncu" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1770/prod/QC_ENRICHMENT/20251014/09/c8dd11b7-bcd2-3cd0-8018-355b8bee393f/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.799 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Elena Seramik Yemek Takımı 16 Parça 4 Kişilik Yeşil-Turuncu" onclick="openModal('prod_5')">English Home Elena Seramik Yemek Takımı 16 Parça 4 Kişilik Yeşil-Turuncu</h4>
                         <button onclick="openModal('prod_5')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -188,12 +204,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_6')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_6')">
                         <img alt="English Home Whisper Seramik Kahvaltı Takımı 8 Parça 2 Kişilik Mavi" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1850/prod/QC_ENRICHMENT/20260403/22/b8ae3b77-a6af-373b-b78f-75b5bf787d87/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.240 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Whisper Seramik Kahvaltı Takımı 8 Parça 2 Kişilik Mavi" onclick="openModal('prod_6')">English Home Whisper Seramik Kahvaltı Takımı 8 Parça 2 Kişilik Mavi</h4>
                         <button onclick="openModal('prod_6')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -201,12 +218,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_20')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_20')">
                         <img alt="English Home Azalia New Bone China 4 Parça 2 Kişilik Kahve Fincan Takımı 90 ml Renkli" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1838/prod/QC_ENRICHMENT/20260312/10/89169e5b-4cf5-3ea0-8e77-68255071bc43/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">959 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Azalia New Bone China 4 Parça 2 Kişilik Kahve Fincan Takımı 90 ml Renkli" onclick="openModal('prod_20')">English Home Azalia New Bone China 4 Parça 2 Kişilik Kahve Fincan Takımı 90 ml Renkli</h4>
                         <button onclick="openModal('prod_20')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -214,12 +232,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_21')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_21')">
                         <img alt="English Home Talisman Magic New Bone China 4 Parça Kahve Fincan Takımı 100 ml Pembe" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1848/prod/QC_ENRICHMENT/20260403/22/93aa7a9b-903b-3db0-a4fc-9c4d2dc0cd76/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">999 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Talisman Magic New Bone China 4 Parça Kahve Fincan Takımı 100 ml Pembe" onclick="openModal('prod_21')">English Home Talisman Magic New Bone China 4 Parça Kahve Fincan Takımı 100 ml Pembe</h4>
                         <button onclick="openModal('prod_21')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -227,12 +246,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_22')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_22')">
                         <img alt="English Home Vanilla Porselen 2'li Kahve Fincan Takımı 90 Ml Kırmızı" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty371/product/media/images/20220323/12/74969451/424052271/1/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">644 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Vanilla Porselen 2'li Kahve Fincan Takımı 90 Ml Kırmızı" onclick="openModal('prod_22')">English Home Vanilla Porselen 2'li Kahve Fincan Takımı 90 Ml Kırmızı</h4>
                         <button onclick="openModal('prod_22')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -240,12 +260,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_23')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_23')">
                         <img alt="English Home Vanilla New Bone China Kahve Fincan Takımı 4 Parça 2 Kişilik Açık Gri" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1819/prod/QC_ENRICHMENT/20260204/17/c6950104-0676-3614-a54f-2dcaf3b462a3/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">610 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Vanilla New Bone China Kahve Fincan Takımı 4 Parça 2 Kişilik Açık Gri" onclick="openModal('prod_23')">English Home Vanilla New Bone China Kahve Fincan Takımı 4 Parça 2 Kişilik Açık Gri</h4>
                         <button onclick="openModal('prod_23')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -253,12 +274,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_24')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_24')">
                         <img alt="English Home Ember Porselen 4 Parça 2 Kişilik Kahve Fincan Takımı 80 ml Turkuaz" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1848/prod/QC_ENRICHMENT/20260403/22/c1dd18d4-444d-3c87-a4d4-fdf716d7c681/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">499 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Ember Porselen 4 Parça 2 Kişilik Kahve Fincan Takımı 80 ml Turkuaz" onclick="openModal('prod_24')">English Home Ember Porselen 4 Parça 2 Kişilik Kahve Fincan Takımı 80 ml Turkuaz</h4>
                         <button onclick="openModal('prod_24')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -266,12 +288,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_25')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_25')">
                         <img alt="English Home Talisman Magic New Bone China 4 Parça Kahve Fincan Takımı 100 ml Beyaz" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1814/prod/QC_ENRICHMENT/20260121/16/6d19612c-9067-3057-a022-c41ca040ce14/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.050 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Talisman Magic New Bone China 4 Parça Kahve Fincan Takımı 100 ml Beyaz" onclick="openModal('prod_25')">English Home Talisman Magic New Bone China 4 Parça Kahve Fincan Takımı 100 ml Beyaz</h4>
                         <button onclick="openModal('prod_25')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -279,12 +302,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_26')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_26')">
                         <img alt="English Home Vanilla New Bone China 4 Parça 2 Kişilik Kahve Fıncan Takımı 90 Ml Açık Sarı" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/0a849f36-be95-30ef-bc0d-92d4ca5c9fe5/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">615 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Vanilla New Bone China 4 Parça 2 Kişilik Kahve Fıncan Takımı 90 Ml Açık Sarı" onclick="openModal('prod_26')">English Home Vanilla New Bone China 4 Parça 2 Kişilik Kahve Fıncan Takımı 90 Ml Açık Sarı</h4>
                         <button onclick="openModal('prod_26')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -292,12 +316,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_27')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_27')">
                         <img alt="English Home Bellis Porselen 4 Parça 2 Kişilik Kahve Fincan Takımı Lacivert" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1829/prod/QC_ENRICHMENT/20260218/18/099a99c4-9556-3312-8286-06cb3fd4c401/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">499 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Bellis Porselen 4 Parça 2 Kişilik Kahve Fincan Takımı Lacivert" onclick="openModal('prod_27')">English Home Bellis Porselen 4 Parça 2 Kişilik Kahve Fincan Takımı Lacivert</h4>
                         <button onclick="openModal('prod_27')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -305,12 +330,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_28')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_28')">
                         <img alt="English Home Angled New Bone China 2 Parça 2 Kişilik Kahve Fincan Takımı 90 ml Turkuaz" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/a07c7862-921b-3ec2-8525-27a456898eea/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">375 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Angled New Bone China 2 Parça 2 Kişilik Kahve Fincan Takımı 90 ml Turkuaz" onclick="openModal('prod_28')">English Home Angled New Bone China 2 Parça 2 Kişilik Kahve Fincan Takımı 90 ml Turkuaz</h4>
                         <button onclick="openModal('prod_28')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -318,12 +344,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_29')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_29')">
                         <img alt="English Home Holiday Shine New Bone China 4 Parça Kahve Fincan Takımı 90 ml Kırmızı" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1790/prod/QC_PREP/20251112/16/62ffc7cf-7993-302b-ab47-6a18bf8a9f64/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">759 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Holiday Shine New Bone China 4 Parça Kahve Fincan Takımı 90 ml Kırmızı" onclick="openModal('prod_29')">English Home Holiday Shine New Bone China 4 Parça Kahve Fincan Takımı 90 ml Kırmızı</h4>
                         <button onclick="openModal('prod_29')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -334,19 +361,20 @@
             </div>
         </div>
     
-        <div class="mb-10">
+        <div id="evtekstili" class="mb-10 pt-24 -mt-16">
             <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2 flex items-center gap-2">
                 <span class="material-symbols-outlined text-orange-500">category</span>
                 Ev Tekstili
             </h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_9')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_9')">
                         <img alt="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Bordo" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/076109c5-5f75-3e7d-9245-9a48c4347cfb/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">699 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Bordo" onclick="openModal('prod_9')">English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Bordo</h4>
                         <button onclick="openModal('prod_9')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -354,12 +382,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_10')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_10')">
                         <img alt="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Krem" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1818/prod/QC_ENRICHMENT/20260204/17/b9d9d80d-0f15-3e6f-8d2a-92ca8c1ffa3a/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">799 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Krem" onclick="openModal('prod_10')">English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Krem</h4>
                         <button onclick="openModal('prod_10')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -367,12 +396,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_11')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_11')">
                         <img alt="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Sarı" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1604/prod/QC/20241114/20/df2328c2-6ef5-31d6-9bb2-1bb1d8f7b399/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">569 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Sarı" onclick="openModal('prod_11')">English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Sarı</h4>
                         <button onclick="openModal('prod_11')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -380,12 +410,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_12')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_12')">
                         <img alt="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Yeşil" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1850/prod/QC_ENRICHMENT/20260403/22/7e7ae3ab-cc2c-3a3b-9e44-f4f880649482/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">579 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Yeşil" onclick="openModal('prod_12')">English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Yeşil</h4>
                         <button onclick="openModal('prod_12')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -393,12 +424,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_13')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_13')">
                         <img alt="English Home romantic memories Akrilik Tv Battaniye 130x170 cm Vişne" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1829/prod/QC_ENRICHMENT/20260218/18/304faa25-69d8-3310-b08f-4da780f4b133/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">999 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home romantic memories Akrilik Tv Battaniye 130x170 cm Vişne" onclick="openModal('prod_13')">English Home romantic memories Akrilik Tv Battaniye 130x170 cm Vişne</h4>
                         <button onclick="openModal('prod_13')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -406,12 +438,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_14')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_14')">
                         <img alt="English Home Flora Drape Çift Kişilik Çok Amaçlı Örtü 200x220 cm Yeşil" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/627adbaa-244a-3f63-82a7-1d9bdfbf3170/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.350 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Flora Drape Çift Kişilik Çok Amaçlı Örtü 200x220 cm Yeşil" onclick="openModal('prod_14')">English Home Flora Drape Çift Kişilik Çok Amaçlı Örtü 200x220 cm Yeşil</h4>
                         <button onclick="openModal('prod_14')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -419,12 +452,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_15')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_15')">
                         <img alt="English Home Strada Grid Çift Kişilik Çok Amaçlı Örtü 200x220 cm Yeşil" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/7fd59761-7034-32d0-bd8f-265619b2f785/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.350 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Strada Grid Çift Kişilik Çok Amaçlı Örtü 200x220 cm Yeşil" onclick="openModal('prod_15')">English Home Strada Grid Çift Kişilik Çok Amaçlı Örtü 200x220 cm Yeşil</h4>
                         <button onclick="openModal('prod_15')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -432,12 +466,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_16')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_16')">
                         <img alt="English Home William Pamuklu Çift Kişilik Battaniye 200x220 cm Bej" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1820/prod/QC_ENRICHMENT/20260204/17/1d0ab94a-b844-3f51-abea-0e4fe893c0d3/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.250 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home William Pamuklu Çift Kişilik Battaniye 200x220 cm Bej" onclick="openModal('prod_16')">English Home William Pamuklu Çift Kişilik Battaniye 200x220 cm Bej</h4>
                         <button onclick="openModal('prod_16')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -445,12 +480,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_17')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_17')">
                         <img alt="English Home Diamond Clam Çift Kişilik Çok Amaçlı Örtü 200x220 cm Bordo" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/011a605e-62b9-30a5-b317-79a054af191a/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.350 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Diamond Clam Çift Kişilik Çok Amaçlı Örtü 200x220 cm Bordo" onclick="openModal('prod_17')">English Home Diamond Clam Çift Kişilik Çok Amaçlı Örtü 200x220 cm Bordo</h4>
                         <button onclick="openModal('prod_17')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -458,12 +494,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_18')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_18')">
                         <img alt="English Home Bleublanc Patch Çift Kişilik Çok Amaçlı Örtü 200x220 cm Mavi" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/77e71826-bb47-339b-a047-48cfb94bdd57/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.925 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Bleublanc Patch Çift Kişilik Çok Amaçlı Örtü 200x220 cm Mavi" onclick="openModal('prod_18')">English Home Bleublanc Patch Çift Kişilik Çok Amaçlı Örtü 200x220 cm Mavi</h4>
                         <button onclick="openModal('prod_18')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -471,12 +508,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_19')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_19')">
                         <img alt="English Home Serenade Kolay Ütülenir Çift Kişilik Nevresim Seti 200x220 cm Yeşil" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/f2929975-7504-36a5-8f81-c5ab403e6954/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">1.350 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home Serenade Kolay Ütülenir Çift Kişilik Nevresim Seti 200x220 cm Yeşil" onclick="openModal('prod_19')">English Home Serenade Kolay Ütülenir Çift Kişilik Nevresim Seti 200x220 cm Yeşil</h4>
                         <button onclick="openModal('prod_19')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -487,19 +525,20 @@
             </div>
         </div>
     
-        <div class="mb-10">
+        <div id="elektriklievaletleri" class="mb-10 pt-24 -mt-16">
             <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2 flex items-center gap-2">
                 <span class="material-symbols-outlined text-orange-500">category</span>
                 Elektrikli Ev Aletleri
             </h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_7')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_7')">
                         <img alt="English Home SBL 3001 Sürahi Blend,Siyah-Krom,1750 ml" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1766/prod/QC_ENRICHMENT/20251002/12/4ef9d691-b583-3372-9e40-312b44cb0b69/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">2.690 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home SBL 3001 Sürahi Blend,Siyah-Krom,1750 ml" onclick="openModal('prod_7')">English Home SBL 3001 Sürahi Blend,Siyah-Krom,1750 ml</h4>
                         <button onclick="openModal('prod_7')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -507,12 +546,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('prod_8')">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                    <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_8')">
                         <img alt="English Home RMB 3001 4 Bıçaklı Multi Blender Seti 1500W Beyaz-Krom" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1829/prod/QC_ENRICHMENT/20260218/18/bbe6ddb8-73a0-3c1f-857a-19bdfdb005fc/1_org_zoom.jpg"/>
+                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">2.999 TL</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
+                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="English Home RMB 3001 4 Bıçaklı Multi Blender Seti 1500W Beyaz-Krom" onclick="openModal('prod_8')">English Home RMB 3001 4 Bıçaklı Multi Blender Seti 1500W Beyaz-Krom</h4>
                         <button onclick="openModal('prod_8')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -1976,14 +2016,14 @@
         
     </div>
 
-    <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-white border-t border-gray-200 pb-safe pt-2 px-4 flex justify-around shadow-[0_-4px_10px_rgba(0,0,0,0.05)] text-[10px] font-bold text-gray-500">
+    <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-white border-t border-gray-200 pb-safe pt-2 px-4 flex justify-around shadow-[0_-10px_30px_rgba(0,0,0,0.08)] text-[10px] font-bold text-gray-500">
         <a href="#urunler" class="flex flex-col items-center p-2 text-orange-500">
             <span class="material-symbols-outlined text-2xl mb-1">home</span>
             Anasayfa
         </a>
         <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
-            <span class="material-symbols-outlined text-2xl mb-1">search</span>
-            Ara
+            <span class="material-symbols-outlined text-2xl mb-1">category</span>
+            Kategoriler
         </a>
         <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
             <span class="material-symbols-outlined text-2xl mb-1">store</span>
