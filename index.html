@@ -247,6 +247,11 @@
                 closeAllDropdowns();
             }
         });
+        // Sayfa yüklenince bir kez üret, browser'da sakla
+        if (!sessionStorage.getItem('edis_session_id')) {
+          sessionStorage.setItem('edis_session_id', 'sess_' + Math.random().toString(36).slice(2, 11));
+        }
+
         function openWholesaleChat() {
             const chat = document.getElementById('wholesale-chat');
             chat.classList.remove('hidden');
@@ -278,6 +283,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         message: message,
+                        sessionId: sessionStorage.getItem('edis_session_id'),
                         timestamp: new Date().toISOString(),
                         source: 'wholesale_chat'
                     })
