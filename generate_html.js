@@ -33,7 +33,6 @@ const products = [
   {title: 'English Home Holiday Shine New Bone China 4 Parça Kahve Fincan Takımı 90 ml Kırmızı', price: '759 TL', img: 'https://cdn.dsmcdn.com/mnresize/400/-/ty1790/prod/QC_PREP/20251112/16/62ffc7cf-7993-302b-ab47-6a18bf8a9f64/1_org_zoom.jpg'}
 ];
 
-// Categorization Logic
 const categories = {
     'Sofra & Mutfak': [],
     'Ev Tekstili': [],
@@ -41,10 +40,8 @@ const categories = {
 };
 
 products.forEach((p, idx) => {
-    // Add an ID for the modal
     p.id = 'prod_' + idx;
     
-    // Generate some mock features based on title
     let material = "Belirtilmemiş";
     if(p.title.toLowerCase().includes("seramik")) material = "Seramik";
     if(p.title.toLowerCase().includes("porselen")) material = "Porselen";
@@ -56,13 +53,13 @@ products.forEach((p, idx) => {
     const parcaMatch = p.title.match(/(\d+)\s*[pP]arça/);
     if(parcaMatch) parca = parcaMatch[1];
     
-    p.details = \`
+    p.details = `
         <li><strong>Marka:</strong> English Home</li>
-        <li><strong>Materyal:</strong> \${material}</li>
-        <li><strong>Parça Sayısı:</strong> \${parca}</li>
+        <li><strong>Materyal:</strong> ${material}</li>
+        <li><strong>Parça Sayısı:</strong> ${parca}</li>
         <li><strong>Orijin:</strong> Türkiye</li>
         <li><strong>Durum:</strong> Orijinal, Sıfır Ürün</li>
-    \`;
+    `;
 
     if (p.title.toLowerCase().includes('blender') || p.title.toLowerCase().includes('sürahi')) {
         categories['Elektrikli Ev Aletleri'].push(p);
@@ -79,53 +76,48 @@ let modalHtml = '';
 for (const [categoryName, items] of Object.entries(categories)) {
     if(items.length === 0) continue;
     
-    categoryHtml += \`
+    categoryHtml += `
         <div class="mb-10">
             <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2 flex items-center gap-2">
                 <span class="material-symbols-outlined text-orange-500">category</span>
-                \${categoryName}
+                ${categoryName}
             </h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    \`;
+    `;
     
     items.forEach(p => {
-        categoryHtml += \`
+        categoryHtml += `
                 <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-gray-50 cursor-pointer" onclick="openModal('\${p.id}')">
-                        <img alt="\${p.title}" class="w-full h-full object-contain p-4 transition-transform group-hover:scale-105 duration-500" src="\${p.img}"/>
-                        <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">\${p.price}</span>
+                    <div class="aspect-square relative overflow-hidden bg-gray-50 cursor-pointer" onclick="openModal('${p.id}')">
+                        <img alt="${p.title}" class="w-full h-full object-contain p-4 transition-transform group-hover:scale-105 duration-500" src="${p.img}"/>
+                        <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">${p.price}</span>
                     </div>
                     <div class="p-4 flex flex-col justify-between flex-grow">
-                        <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="\${p.title}" onclick="openModal('\${p.id}')">\${p.title}</h4>
-                        <button onclick="openModal('\${p.id}')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
+                        <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="${p.title}" onclick="openModal('${p.id}')">${p.title}</h4>
+                        <button onclick="openModal('${p.id}')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
                             Detay İçin
                         </button>
                     </div>
-                </div>\`;
+                </div>`;
                 
-        // Generate modal for this product
-        modalHtml += \`
-        <div id="modal-\${p.id}" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6">
-            <!-- Backdrop -->
-            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal('\${p.id}')"></div>
+        modalHtml += `
+        <div id="modal-${p.id}" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal('${p.id}')"></div>
             
-            <!-- Modal Content -->
             <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col md:flex-row transform transition-all">
-                <button onclick="closeModal('\${p.id}')" class="absolute top-4 right-4 z-10 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors">
+                <button onclick="closeModal('${p.id}')" class="absolute top-4 right-4 z-10 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors">
                     <span class="material-symbols-outlined">close</span>
                 </button>
                 
-                <!-- Image Side -->
                 <div class="w-full md:w-1/2 bg-gray-50 p-6 flex items-center justify-center min-h-[300px]">
-                    <img src="\${p.img}" alt="\${p.title}" class="max-w-full max-h-[400px] object-contain drop-shadow-xl rounded-xl" />
+                    <img src="${p.img}" alt="${p.title}" class="max-w-full max-h-[400px] object-contain drop-shadow-xl rounded-xl" />
                 </div>
                 
-                <!-- Details Side -->
                 <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col overflow-y-auto">
                     <div class="uppercase tracking-widest text-xs font-bold text-orange-500 mb-2">Trendyol Özel</div>
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4 leading-tight">\${p.title}</h2>
-                    <div class="text-3xl font-extrabold text-orange-600 mb-6">\${p.price}</div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4 leading-tight">${p.title}</h2>
+                    <div class="text-3xl font-extrabold text-orange-600 mb-6">${p.price}</div>
                     
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
@@ -133,7 +125,7 @@ for (const [categoryName, items] of Object.entries(categories)) {
                             Ürün Özellikleri
                         </h3>
                         <ul class="space-y-3 text-gray-600 text-sm bg-orange-50/50 p-5 rounded-2xl border border-orange-100">
-                            \${p.details}
+                            ${p.details}
                             <li><strong>Garanti:</strong> 2 Yıl</li>
                             <li><strong>Kargo:</strong> Ücretsiz Kargo</li>
                         </ul>
@@ -151,16 +143,16 @@ for (const [categoryName, items] of Object.entries(categories)) {
                 </div>
             </div>
         </div>
-        \`;
+        `;
     });
     
-    categoryHtml += \`
+    categoryHtml += `
             </div>
         </div>
-    \`;
+    `;
 }
 
-const fullHtml = \`<!DOCTYPE html>
+const fullHtml = `<!DOCTYPE html>
 <html lang="tr" class="scroll-smooth">
 <head>
     <meta charset="utf-8"/>
@@ -192,22 +184,18 @@ const fullHtml = \`<!DOCTYPE html>
     </script>
 </head>
 <body class="text-gray-800 antialiased min-h-screen flex flex-col">
-    <!-- Promo Banner -->
     <div class="bg-orange-500 text-white text-center py-2 text-sm font-semibold tracking-wide">
         Süper Fırsat Günleri Başladı! Tüm Ürünlerde Ücretsiz Kargo
     </div>
 
-    <!-- Header -->
     <header class="bg-white sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
                     <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">E</div>
                     <span class="font-extrabold text-2xl text-gray-900 tracking-tight">edis<span class="text-orange-500">.</span></span>
                 </div>
                 
-                <!-- Search -->
                 <div class="hidden md:flex flex-1 max-w-xl mx-8">
                     <div class="relative w-full">
                         <input type="text" class="w-full bg-gray-100 border-transparent rounded-full py-2.5 pl-5 pr-12 text-sm focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none" placeholder="Ürün, kategori veya marka ara...">
@@ -217,7 +205,6 @@ const fullHtml = \`<!DOCTYPE html>
                     </div>
                 </div>
 
-                <!-- Icons -->
                 <div class="flex items-center gap-6">
                     <a href="#" class="hidden md:flex flex-col items-center text-gray-500 hover:text-orange-500 transition-colors">
                         <span class="material-symbols-outlined">person</span>
@@ -236,7 +223,6 @@ const fullHtml = \`<!DOCTYPE html>
             </div>
         </div>
         
-        <!-- Navigation -->
         <nav class="border-t border-gray-100 hidden md:block bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <ul class="flex space-x-8 text-sm font-semibold text-gray-600 h-12 items-center">
@@ -251,13 +237,12 @@ const fullHtml = \`<!DOCTYPE html>
     </header>
 
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <!-- Banners -->
         <div class="mb-12 rounded-3xl overflow-hidden shadow-sm relative bg-orange-50">
             <div class="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-400 opacity-10"></div>
             <div class="px-8 py-12 md:py-16 relative z-10 flex flex-col md:flex-row items-center justify-between">
                 <div class="text-center md:text-left mb-6 md:mb-0">
                     <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Ev & Yaşam<br/><span class="text-orange-500">Bahar Fırsatları</span></h2>
-                    <p class="text-gray-600 font-medium text-lg max-w-md">English Home ürünlerinde muhteşem indirimleri kaçırmayın.</p>
+                    <p class="text-gray-600 font-medium text-lg max-w-md">Edis mağazasında muhteşem indirimleri kaçırmayın.</p>
                 </div>
                 <div>
                     <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-500/40 transition-transform active:scale-95">
@@ -267,25 +252,21 @@ const fullHtml = \`<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- Products Section -->
         <section id="urunler">
-            \${categoryHtml}
+            ${categoryHtml}
         </section>
     </main>
     
-    <!-- Footer -->
     <footer class="bg-white border-t border-gray-200 mt-12 pt-12 pb-24 md:pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
             <p>&copy; 2026 Edis E-ticaret. Tüm hakları saklıdır.</p>
         </div>
     </footer>
 
-    <!-- Modals Container -->
     <div id="modals">
-        \${modalHtml}
+        ${modalHtml}
     </div>
 
-    <!-- Bottom Mobile Nav -->
     <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-white border-t border-gray-200 pb-safe pt-2 px-4 flex justify-around shadow-[0_-4px_10px_rgba(0,0,0,0.05)] text-[10px] font-bold text-gray-500">
         <a href="#urunler" class="flex flex-col items-center p-2 text-orange-500">
             <span class="material-symbols-outlined text-2xl mb-1">home</span>
@@ -305,7 +286,7 @@ const fullHtml = \`<!DOCTYPE html>
         </a>
     </nav>
 </body>
-</html>\`;
+</html>`;
 
-fs.writeFileSync('C:\\\\Users\\\\Mustafa\\\\.gemini\\\\antigravity\\\\scratch\\\\edis\\\\index.html', fullHtml, 'utf-8');
+fs.writeFileSync('C:\\Users\\Mustafa\\.gemini\\antigravity\\scratch\\edis\\index.html', fullHtml, 'utf-8');
 console.log('Successfully updated index.html with categorized products, trendyol orange theme, and modals.');
