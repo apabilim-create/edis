@@ -27,6 +27,45 @@
             modal.classList.remove('flex');
             document.body.style.overflow = 'auto';
         }
+
+        // Kategori filtreleme fonksiyonu
+        function filterCategory(catId) {
+            const categories = ['soframutfak', 'evtekstili', 'elektriklievaletleri'];
+            
+            if (catId === 'all') {
+                categories.forEach(id => {
+                    document.getElementById(id).style.display = 'block';
+                });
+            } else {
+                categories.forEach(id => {
+                    if (id === catId) {
+                        document.getElementById(id).style.display = 'block';
+                    } else {
+                        document.getElementById(id).style.display = 'none';
+                    }
+                });
+            }
+            
+            // Dropdown'ı gizle
+            const dd = document.getElementById('cat-dropdown');
+            dd.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            dd.classList.add('opacity-0', 'invisible', 'translate-y-2');
+            
+            // Ürünler bölümüne kaydır
+            document.getElementById('urunler').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Tıklama ile Dropdown açma/kapama
+        function toggleDropdown() {
+            const dd = document.getElementById('cat-dropdown');
+            if(dd.classList.contains('opacity-0')) {
+                dd.classList.remove('opacity-0', 'invisible', 'translate-y-2');
+                dd.classList.add('opacity-100', 'visible', 'translate-y-0');
+            } else {
+                dd.classList.add('opacity-0', 'invisible', 'translate-y-2');
+                dd.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            }
+        }
     </script>
 </head>
 <body class="text-gray-800 antialiased min-h-screen flex flex-col">
@@ -69,27 +108,26 @@
             </div>
         </div>
         
-        <nav class="bg-white">
+        <nav class="bg-white relative z-30">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
-                <ul class="flex text-sm font-semibold text-gray-600 h-14 items-center whitespace-nowrap min-w-max gap-8">
-                    <li><a href="#urunler" class="hover:text-orange-500 transition-colors text-orange-500 border-b-2 border-orange-500 py-4 block">Ürünlerimiz</a></li>
+                <ul class="flex text-sm font-semibold text-gray-600 h-14 items-center whitespace-nowrap min-w-max gap-6 md:gap-8">
+                    <li><button onclick="filterCategory('all')" class="hover:text-orange-500 transition-colors text-orange-500 py-4 block">Tüm Ürünler</button></li>
                     
-                    <!-- Kategoriler Menu with Dropdown -->
-                    <li class="relative group cursor-pointer py-4">
-                        <span class="hover:text-orange-500 transition-colors flex items-center gap-1">
+                    <!-- Kategoriler Menu with click dropdown -->
+                    <li class="relative group cursor-pointer py-4" onmouseenter="document.getElementById('cat-dropdown').classList.remove('opacity-0', 'invisible', 'translate-y-2'); document.getElementById('cat-dropdown').classList.add('opacity-100', 'visible', 'translate-y-0');" onmouseleave="document.getElementById('cat-dropdown').classList.add('opacity-0', 'invisible', 'translate-y-2'); document.getElementById('cat-dropdown').classList.remove('opacity-100', 'visible', 'translate-y-0');">
+                        <button onclick="toggleDropdown()" class="hover:text-orange-500 transition-colors flex items-center gap-1 font-semibold">
                             Kategoriler <span class="material-symbols-outlined text-sm">expand_more</span>
-                        </span>
-                        <div class="absolute top-[56px] left-0 w-56 bg-white border border-gray-100 shadow-2xl rounded-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left group-hover:translate-y-0 translate-y-2 z-50">
-                            <a href="#soframutfak" class="block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🍽️ Sofra & Mutfak</a>
-                            <a href="#evtekstili" class="block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🛋️ Ev Tekstili</a>
-                            <a href="#elektriklievaletleri" class="block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🔌 Elektrikli Ev Aletleri</a>
+                        </button>
+                        <div id="cat-dropdown" class="absolute top-[56px] left-0 w-56 bg-white border border-gray-100 shadow-2xl rounded-xl py-2 opacity-0 invisible transition-all duration-200 transform origin-top-left translate-y-2 z-50">
+                            <button onclick="filterCategory('soframutfak')" class="w-full text-left block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🍽️ Sofra & Mutfak</button>
+                            <button onclick="filterCategory('evtekstili')" class="w-full text-left block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🛋️ Ev Tekstili</button>
+                            <button onclick="filterCategory('elektriklievaletleri')" class="w-full text-left block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🔌 Elektrikli Ev Aletleri</button>
                         </div>
                     </li>
                     
-                    <li><a href="#" class="hover:text-orange-500 transition-colors py-4 block">Markalarımız</a></li>
+                    <li><a href="#" class="hover:text-orange-500 transition-colors text-gray-800 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-orange-500 text-[18px]">trending_up</span> Çok Satanlar</a></li>
+                    <li><a href="#" class="hover:text-orange-500 transition-colors text-red-600 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-red-500 text-[18px]">sell</span> İndirimler</a></li>
                     <li><a href="#" class="hover:text-orange-500 transition-colors text-orange-600 font-bold bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-100">Toptan Satış</a></li>
-                    <li><a href="#" class="hover:text-orange-500 transition-colors py-4 block">İletişim</a></li>
-                    <li class="md:ml-auto text-orange-600 flex items-center gap-1 font-bold pl-4 md:border-l md:border-gray-200"><span class="material-symbols-outlined text-sm">local_shipping</span> Kargo Bedava</li>
                 </ul>
             </div>
         </nav>
@@ -104,16 +142,16 @@
                     <p class="text-gray-600 font-medium text-lg max-w-md">Edis mağazasında muhteşem indirimleri kaçırmayın.</p>
                 </div>
                 <div>
-                    <button class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-[0_10px_30px_rgba(242,122,26,0.4)] transition-transform active:scale-95 hover:-translate-y-1">
+                    <button onclick="filterCategory('all')" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-[0_10px_30px_rgba(242,122,26,0.4)] transition-transform active:scale-95 hover:-translate-y-1">
                         Alışverişe Başla
                     </button>
                 </div>
             </div>
         </div>
 
-        <section id="urunler">
+        <section id="urunler" class="min-h-[50vh]">
             
-        <div id="soframutfak" class="mb-10 pt-24 -mt-16">
+        <div id="soframutfak" class="mb-10 pt-8 category-section">
             <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2 flex items-center gap-2">
                 <span class="material-symbols-outlined text-orange-500">category</span>
                 Sofra & Mutfak
@@ -361,7 +399,7 @@
             </div>
         </div>
     
-        <div id="evtekstili" class="mb-10 pt-24 -mt-16">
+        <div id="evtekstili" class="mb-10 pt-8 category-section">
             <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2 flex items-center gap-2">
                 <span class="material-symbols-outlined text-orange-500">category</span>
                 Ev Tekstili
@@ -525,7 +563,7 @@
             </div>
         </div>
     
-        <div id="elektriklievaletleri" class="mb-10 pt-24 -mt-16">
+        <div id="elektriklievaletleri" class="mb-10 pt-8 category-section">
             <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2 flex items-center gap-2">
                 <span class="material-symbols-outlined text-orange-500">category</span>
                 Elektrikli Ev Aletleri
@@ -2017,17 +2055,17 @@
     </div>
 
     <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-white border-t border-gray-200 pb-safe pt-2 px-4 flex justify-around shadow-[0_-10px_30px_rgba(0,0,0,0.08)] text-[10px] font-bold text-gray-500">
-        <a href="#urunler" class="flex flex-col items-center p-2 text-orange-500">
+        <button onclick="filterCategory('all')" class="flex flex-col items-center p-2 text-orange-500">
             <span class="material-symbols-outlined text-2xl mb-1">home</span>
             Anasayfa
-        </a>
-        <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
+        </button>
+        <button onclick="toggleDropdown()" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
             <span class="material-symbols-outlined text-2xl mb-1">category</span>
             Kategoriler
-        </a>
+        </button>
         <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
-            <span class="material-symbols-outlined text-2xl mb-1">store</span>
-            Toptan Satış
+            <span class="material-symbols-outlined text-2xl mb-1">sell</span>
+            İndirimler
         </a>
         <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
             <span class="material-symbols-outlined text-2xl mb-1">person</span>
