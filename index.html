@@ -16,6 +16,8 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .product-card img { filter: drop-shadow(0 8px 12px rgba(0,0,0,0.06)); }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .animate-blink { animation: blink 2s infinite ease-in-out; }
     </style>
     <script>
         function openModal(id) {
@@ -345,7 +347,7 @@
     </script>
 </head>
 <body class="text-gray-800 antialiased min-h-screen flex flex-col pb-16 md:pb-0">
-    <div class="bg-orange-500 text-white text-center py-1.5 md:py-2 text-[10px] md:text-sm font-semibold tracking-wide shadow-sm relative z-50">
+    <div class="bg-orange-500 text-white text-center py-1.5 md:py-2 text-[10px] md:text-sm font-semibold tracking-wide shadow-sm relative z-50 animate-blink">
         Süper Fırsat Günleri Başladı! Tüm Ürünlerde Ücretsiz Kargo
     </div>
 
