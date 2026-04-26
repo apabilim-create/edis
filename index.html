@@ -284,15 +284,30 @@
                 });
 
                 if (response.ok) {
-                    const data = await response.json();
-                    if (data && data.reply) {
-                        appendMessage(data.reply, 'bot');
+                    const contentType = response.headers.get("content-type");
+                    let botReply = "";
+
+                    if (contentType && contentType.includes("application/json")) {
+                        const data = await response.json();
+                        // n8n often returns an array of objects
+                        const result = Array.isArray(data) ? data[0] : data;
+                        
+                        // Check common response keys
+                        botReply = result.reply || result.text || result.output || result.message || result.response || result.data;
+                        
+                        // If no key found but the result is a string
+                        if (!botReply && typeof result === 'string') botReply = result;
                     } else {
-                        // If no specific reply from webhook, show a generic success
+                        botReply = await response.text();
+                    }
+
+                    if (botReply && botReply.length > 0) {
+                        appendMessage(botReply, 'bot');
+                    } else {
                         appendMessage("Mesajınız iletildi. En kısa sürede sizinle iletişime geçeceğiz.", 'bot');
                     }
                 } else {
-                    appendMessage("Mesaj gönderilirken bir hata oluştu.", 'bot');
+                    appendMessage("Mesaj gönderilirken bir hata oluştu (HTTP " + response.status + ").", 'bot');
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -306,9 +321,11 @@
             if (type === 'user') {
                 div.className = 'bg-orange-500 text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm self-end max-w-[85%] mb-2';
             } else {
-                div.className = 'bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 self-start max-w-[85%] border border-gray-100 mb-2';
+                div.className = 'bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 self-start max-w-[85%] border border-gray-100 mb-2 leading-relaxed';
             }
-            div.innerText = text;
+            
+            // Handle line breaks
+            div.innerHTML = text.replace(/\n/g, '<br/>');
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
         }
