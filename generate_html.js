@@ -848,10 +848,25 @@ const categoryMap = {
 };
 
 const categorizedItems = {};
+const brands = {};
 
 products.forEach((p, idx) => {
     p.id = 'prod_' + idx;
     
+    // Brand detection
+    let brand = "Diğer";
+    const titleLower = p.title.toLowerCase();
+    if(titleLower.includes("tantitoni")) brand = "Tantitoni";
+    else if(titleLower.includes("paşabahçe")) brand = "Paşabahçe";
+    else if(titleLower.includes("english home")) brand = "English Home";
+    else if(titleLower.includes("brabantia")) brand = "Brabantia";
+    else if(titleLower.includes("lines")) brand = "Lines";
+    else if(titleLower.includes("genel markalar")) brand = "Genel Markalar";
+    
+    p.brand = brand;
+    if(!brands[brand]) brands[brand] = 0;
+    brands[brand]++;
+
     let material = "Belirtilmemiş";
     if(p.title.toLowerCase().includes("seramik")) material = "Seramik";
     if(p.title.toLowerCase().includes("porselen")) material = "Porselen";
@@ -864,7 +879,7 @@ products.forEach((p, idx) => {
     if(parcaMatch) parca = parcaMatch[1];
     
     p.details = `
-        <li><strong>Marka:</strong> English Home</li>
+        <li><strong>Marka:</strong> ${brand}</li>
         <li><strong>Materyal:</strong> ${material}</li>
         <li><strong>Parça Sayısı:</strong> ${parca}</li>
         <li><strong>Orijin:</strong> Türkiye</li>
@@ -891,6 +906,16 @@ for (const catId in categorizedItems) {
     mobileBottomSheetHtml += `<button onclick="filterCategory('${catId}')" class="w-full text-left py-4 border-b border-gray-100 font-semibold text-gray-700 hover:text-orange-500 flex items-center gap-3">${catInfo.icon} ${catInfo.name}</button>\n`;
 }
 
+// Brand Dropdown Items
+let desktopBrandDropdownHtml = '';
+let mobileBrandBottomSheetHtml = '';
+const brandList = Object.keys(brands).sort();
+
+brandList.forEach(brandName => {
+    desktopBrandDropdownHtml += `<button onclick="filterBrand('${brandName}')" class="w-full text-left px-5 py-3 text-sm text-gray-700 font-semibold hover:bg-orange-50 hover:text-orange-600 transition-colors border-b border-gray-50 flex items-center gap-2"><span class="material-symbols-outlined text-orange-500 text-lg">sell</span> ${brandName}</button>\n`;
+    mobileBrandBottomSheetHtml += `<button onclick="filterBrand('${brandName}')" class="w-full text-left py-4 border-b border-gray-100 font-semibold text-gray-700 hover:text-orange-500 flex items-center gap-3"><span class="material-symbols-outlined text-orange-500">sell</span> ${brandName}</button>\n`;
+});
+
 let categoryHtml = '';
 let modalHtml = '';
 
@@ -909,7 +934,7 @@ for (const catId in categorizedItems) {
     
     items.forEach(p => {
         categoryHtml += `
-                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="${p.title.replace(/"/g, '&quot;')}">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="${p.title.replace(/"/g, '&quot;')}" data-brand="${p.brand}">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('${p.id}')">
                         <img alt="${p.title}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="${p.img}"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -1102,16 +1127,66 @@ const fullHtml = `<!DOCTYPE html>
             }
         }
         
-        function toggleDropdown(e) {
+        function filterBrand(brandName) {
+            const categories = document.querySelectorAll('.category-section');
+            let foundAny = false;
+            
+            document.getElementById('searchInputMobile').value = '';
+            document.getElementById('searchInputDesktop').value = '';
+            
+            categories.forEach(cat => {
+                let hasVisible = false;
+                const products = cat.querySelectorAll('.product-card');
+                
+                products.forEach(card => {
+                    const brand = card.getAttribute('data-brand');
+                    if (brand === brandName) {
+                        card.style.display = 'flex';
+                        hasVisible = true;
+                        foundAny = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                if (hasVisible) {
+                    cat.style.display = 'block';
+                } else {
+                    cat.style.display = 'none';
+                }
+            });
+            
+            // Dropdown'ları kapat
+            closeAllDropdowns();
+            
+            // Sabit menünün altında kalmayacak şekilde akıllı kaydır
+            if(foundAny) scrollWithOffset('urunler');
+        }
+
+        function toggleDropdown(e, id) {
             if(e) { e.preventDefault(); e.stopPropagation(); }
-            const dd = document.getElementById('cat-dropdown');
-            if(dd.classList.contains('opacity-0')) {
+            const dd = document.getElementById(id);
+            const isOpen = !dd.classList.contains('opacity-0');
+            
+            closeAllDropdowns();
+            
+            if(!isOpen) {
                 dd.classList.remove('opacity-0', 'invisible', 'translate-y-2');
                 dd.classList.add('opacity-100', 'visible', 'translate-y-0');
-            } else {
-                dd.classList.add('opacity-0', 'invisible', 'translate-y-2');
-                dd.classList.remove('opacity-100', 'visible', 'translate-y-0');
             }
+        }
+
+        function closeAllDropdowns() {
+            const dropdowns = ['cat-dropdown', 'brand-dropdown'];
+            dropdowns.forEach(id => {
+                const dd = document.getElementById(id);
+                if(dd) {
+                    dd.classList.add('opacity-0', 'invisible', 'translate-y-2');
+                    dd.classList.remove('opacity-100', 'visible', 'translate-y-0');
+                }
+            });
+            closeMobileCategoryDropdown();
+            closeMobileBrandDropdown();
         }
 
         // Mobil Bottom Sheet Dropdown Açma Kapama
@@ -1120,14 +1195,25 @@ const fullHtml = `<!DOCTYPE html>
             const sheet = document.getElementById('mobile-bottom-sheet');
             const overlay = document.getElementById('mobile-sheet-overlay');
             
-            if(sheet.classList.contains('translate-y-full')) {
-                sheet.classList.remove('translate-y-full');
-                sheet.classList.add('translate-y-0');
-                overlay.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            } else {
-                closeMobileCategoryDropdown();
-            }
+            closeAllDropdowns();
+            
+            sheet.classList.remove('translate-y-full');
+            sheet.classList.add('translate-y-0');
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function toggleMobileBrandDropdown(e) {
+            if(e) { e.preventDefault(); e.stopPropagation(); }
+            const sheet = document.getElementById('mobile-brand-sheet');
+            const overlay = document.getElementById('mobile-sheet-overlay');
+            
+            closeAllDropdowns();
+            
+            sheet.classList.remove('translate-y-full');
+            sheet.classList.add('translate-y-0');
+            overlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
         }
         
         function closeMobileCategoryDropdown() {
@@ -1141,12 +1227,26 @@ const fullHtml = `<!DOCTYPE html>
             }
         }
 
+        function closeMobileBrandDropdown() {
+            const sheet = document.getElementById('mobile-brand-sheet');
+            const overlay = document.getElementById('mobile-sheet-overlay');
+            if(sheet) {
+                sheet.classList.add('translate-y-full');
+                sheet.classList.remove('translate-y-0');
+                if(overlay) overlay.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
         document.addEventListener('click', function(event) {
-            const dd = document.getElementById('cat-dropdown');
-            const btn = document.getElementById('cat-btn');
-            if (dd && btn && !btn.contains(event.target) && !dd.contains(event.target)) {
-                dd.classList.add('opacity-0', 'invisible', 'translate-y-2');
-                dd.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            const catDd = document.getElementById('cat-dropdown');
+            const brandDd = document.getElementById('brand-dropdown');
+            const catBtn = document.getElementById('cat-btn');
+            const brandBtn = document.getElementById('brand-btn');
+            
+            if (catDd && catBtn && !catBtn.contains(event.target) && !catDd.contains(event.target) &&
+                brandDd && brandBtn && !brandBtn.contains(event.target) && !brandDd.contains(event.target)) {
+                closeAllDropdowns();
             }
         });
     </script>
@@ -1182,6 +1282,7 @@ const fullHtml = `<!DOCTYPE html>
         <div class="px-4 pb-3 overflow-x-auto hide-scrollbar flex gap-2 items-center">
             <button onclick="filterCategory('all')" class="whitespace-nowrap px-4 py-1.5 bg-orange-50 text-orange-600 text-xs font-bold rounded-full border border-orange-200">Tüm Ürünler</button>
             <button onclick="toggleMobileCategoryDropdown(event)" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-800 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full flex items-center gap-1 shadow-sm border border-gray-200">Kategoriler <span class="material-symbols-outlined text-[14px]">expand_more</span></button>
+            <button onclick="toggleMobileBrandDropdown(event)" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-800 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full flex items-center gap-1 shadow-sm border border-gray-200">Markalar <span class="material-symbols-outlined text-[14px]">expand_more</span></button>
             
             <div class="w-px h-5 bg-gray-200 mx-1 flex-shrink-0"></div> <!-- Divider -->
             
@@ -1221,11 +1322,20 @@ const fullHtml = `<!DOCTYPE html>
                     <li><button onclick="filterCategory('all')" class="hover:text-orange-500 transition-colors text-orange-500 py-4 block font-bold">Tüm Ürünler</button></li>
                     
                     <li class="relative py-4">
-                        <button id="cat-btn" onclick="toggleDropdown(event)" class="hover:text-orange-500 transition-colors flex items-center gap-1 font-bold">
+                        <button id="cat-btn" onclick="toggleDropdown(event, 'cat-dropdown')" class="hover:text-orange-500 transition-colors flex items-center gap-1 font-bold">
                             Kategoriler <span class="material-symbols-outlined text-sm">expand_more</span>
                         </button>
                         <div id="cat-dropdown" class="absolute top-[56px] left-0 w-64 bg-white border border-gray-100 shadow-2xl rounded-xl py-3 opacity-0 invisible transition-all duration-200 transform origin-top-left translate-y-2 z-50">
                             ${desktopDropdownHtml}
+                        </div>
+                    </li>
+
+                    <li class="relative py-4">
+                        <button id="brand-btn" onclick="toggleDropdown(event, 'brand-dropdown')" class="hover:text-orange-500 transition-colors flex items-center gap-1 font-bold">
+                            Markalar <span class="material-symbols-outlined text-sm">expand_more</span>
+                        </button>
+                        <div id="brand-dropdown" class="absolute top-[56px] left-0 w-64 bg-white border border-gray-100 shadow-2xl rounded-xl py-3 opacity-0 invisible transition-all duration-200 transform origin-top-left translate-y-2 z-50">
+                            ${desktopBrandDropdownHtml}
                         </div>
                     </li>
                     
@@ -1278,6 +1388,18 @@ const fullHtml = `<!DOCTYPE html>
             <h3 class="text-lg font-bold mb-3 text-gray-800 flex justify-between items-center">Kategoriler <span class="material-symbols-outlined text-gray-400" onclick="closeMobileCategoryDropdown()">close</span></h3>
             <button onclick="filterCategory('all')" class="w-full text-left py-4 border-b border-gray-100 font-bold text-orange-500 flex items-center justify-between">Tüm Ürünler <span class="material-symbols-outlined text-sm">chevron_right</span></button>
             ${mobileBottomSheetHtml}
+        </div>
+    </div>
+
+    <!-- Mobile Brand Dropdown Menu (Bottom Sheet) -->
+    <div id="mobile-brand-sheet" class="md:hidden fixed bottom-[55px] left-0 w-full bg-white rounded-t-3xl shadow-[0_-15px_40px_rgba(0,0,0,0.2)] z-50 transform translate-y-full transition-transform duration-300 flex flex-col">
+        <div class="w-full flex justify-center pt-3 pb-1" onclick="closeMobileBrandDropdown()">
+            <div class="w-12 h-1.5 bg-gray-300 rounded-full"></div>
+        </div>
+        <div class="px-6 pb-6 pt-2">
+            <h3 class="text-lg font-bold mb-3 text-gray-800 flex justify-between items-center">Markalar <span class="material-symbols-outlined text-gray-400" onclick="closeMobileBrandDropdown()">close</span></h3>
+            <button onclick="filterCategory('all')" class="w-full text-left py-4 border-b border-gray-100 font-bold text-orange-500 flex items-center justify-between">Tüm Markalar <span class="material-symbols-outlined text-sm">chevron_right</span></button>
+            ${mobileBrandBottomSheetHtml}
         </div>
     </div>
 
