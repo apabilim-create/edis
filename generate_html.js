@@ -89,7 +89,7 @@ for (const [categoryName, items] of Object.entries(categories)) {
     
     items.forEach(p => {
         categoryHtml += `
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="${p.title.replace(/"/g, '&quot;')}">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('${p.id}')">
                         <img alt="${p.title}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="${p.img}"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -187,13 +187,23 @@ const fullHtml = `<!DOCTYPE html>
             document.body.style.overflow = 'auto';
         }
 
+        // Kategori filtreleme
         function filterCategory(catId) {
             const categories = ['soframutfak', 'evtekstili', 'elektriklievaletleri'];
+            
+            // Tüm arama inputlarını temizle
+            document.getElementById('searchInputMobile').value = '';
+            document.getElementById('searchInputDesktop').value = '';
             
             if (catId === 'all') {
                 categories.forEach(id => {
                     const el = document.getElementById(id);
-                    if(el) el.style.display = 'block';
+                    if(el) {
+                        el.style.display = 'block';
+                        // Tüm ürünleri göster
+                        const products = el.querySelectorAll('.product-card');
+                        products.forEach(p => p.style.display = 'flex');
+                    }
                 });
             } else {
                 categories.forEach(id => {
@@ -201,6 +211,9 @@ const fullHtml = `<!DOCTYPE html>
                     if(el) {
                         if (id === catId) {
                             el.style.display = 'block';
+                            // Kategorideki tüm ürünleri göster
+                            const products = el.querySelectorAll('.product-card');
+                            products.forEach(p => p.style.display = 'flex');
                         } else {
                             el.style.display = 'none';
                         }
@@ -215,8 +228,42 @@ const fullHtml = `<!DOCTYPE html>
                 dd.classList.add('opacity-0', 'invisible', 'translate-y-2');
             }
             
-            // İçeriğe kaydır
             document.getElementById('urunler').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        // Arama (Search) Fonksiyonu
+        function searchProducts(query) {
+            query = query.toLowerCase().trim();
+            const categories = document.querySelectorAll('.category-section');
+            let foundAny = false;
+            
+            categories.forEach(cat => {
+                let hasVisible = false;
+                const products = cat.querySelectorAll('.product-card');
+                
+                products.forEach(card => {
+                    const title = card.getAttribute('data-title').toLowerCase();
+                    if (title.includes(query)) {
+                        card.style.display = 'flex';
+                        hasVisible = true;
+                        foundAny = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Kategorinin içinde görünen ürün varsa kategoriyi göster, yoksa gizle
+                if (hasVisible) {
+                    cat.style.display = 'block';
+                } else {
+                    cat.style.display = 'none';
+                }
+            });
+            
+            // Kullanıcı arama yapıyorsa ve ilk harfi girdiyse aşağı kaydır
+            if(query.length === 1 && foundAny) {
+                document.getElementById('urunler').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
         
         function toggleDropdown(e) {
@@ -231,7 +278,6 @@ const fullHtml = `<!DOCTYPE html>
             }
         }
 
-        // Tıklama dışı alanı yakalayıp menüyü kapatma
         document.addEventListener('click', function(event) {
             const dd = document.getElementById('cat-dropdown');
             const btn = document.getElementById('cat-btn');
@@ -264,21 +310,34 @@ const fullHtml = `<!DOCTYPE html>
                 </div>
             </div>
         </div>
-        <!-- Mobile Search Bar -->
+        <!-- Mobile Search Bar (Aktif Edildi) -->
         <div class="px-4 pb-3">
             <div class="relative w-full">
-                <input type="text" class="w-full bg-gray-100 border-transparent rounded-lg py-2 pl-4 pr-10 text-sm focus:bg-white focus:border-orange-500 border outline-none" placeholder="Ürün veya kategori ara...">
+                <input id="searchInputMobile" type="text" onkeyup="searchProducts(this.value)" class="w-full bg-gray-100 border-transparent rounded-lg py-2 pl-4 pr-10 text-sm focus:bg-white focus:border-orange-500 border outline-none" placeholder="Ürün veya kategori ara...">
                 <button class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500">
                     <span class="material-symbols-outlined text-[20px]">search</span>
                 </button>
             </div>
         </div>
-        <!-- Mobile Category Chips (Scrollable horizontally) -->
-        <div class="px-4 pb-3 overflow-x-auto hide-scrollbar flex gap-2">
+        <!-- Mobile Category & Extra Menus Chips (Scrollable horizontally) -->
+        <div class="px-4 pb-3 overflow-x-auto hide-scrollbar flex gap-2 items-center">
             <button onclick="filterCategory('all')" class="whitespace-nowrap px-4 py-1.5 bg-orange-500 text-white text-xs font-bold rounded-full shadow-sm">Tüm Ürünler</button>
             <button onclick="filterCategory('soframutfak')" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full">Sofra & Mutfak</button>
             <button onclick="filterCategory('evtekstili')" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full">Ev Tekstili</button>
             <button onclick="filterCategory('elektriklievaletleri')" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full">Ev Aletleri</button>
+            
+            <div class="w-px h-6 bg-gray-200 mx-1 flex-shrink-0"></div> <!-- Divider -->
+            
+            <!-- Eksik menüler mobilde eklendi -->
+            <a href="#" class="whitespace-nowrap px-3 py-1.5 bg-gray-50 text-gray-800 hover:text-orange-500 text-xs font-bold rounded-full flex items-center gap-1 border border-gray-100">
+                <span class="material-symbols-outlined text-[14px] text-orange-500">trending_up</span> Çok Satanlar
+            </a>
+            <a href="#" class="whitespace-nowrap px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 text-xs font-bold rounded-full flex items-center gap-1 border border-red-100">
+                <span class="material-symbols-outlined text-[14px]">sell</span> İndirimler
+            </a>
+            <a href="#" class="whitespace-nowrap px-3 py-1.5 bg-orange-50 text-orange-600 hover:bg-orange-100 text-xs font-bold rounded-full border border-orange-200">
+                Toptan Satış
+            </a>
         </div>
     </header>
 
@@ -291,9 +350,10 @@ const fullHtml = `<!DOCTYPE html>
                     <span class="font-extrabold text-2xl text-gray-900 tracking-tight">edis<span class="text-orange-500">.</span></span>
                 </div>
                 
+                <!-- Desktop Search Bar (Aktif Edildi) -->
                 <div class="flex-1 max-w-xl mx-8">
                     <div class="relative w-full">
-                        <input type="text" class="w-full bg-gray-50 border-gray-200 border rounded-full py-2.5 pl-5 pr-12 text-sm focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none" placeholder="Ürün, kategori veya marka ara...">
+                        <input id="searchInputDesktop" type="text" onkeyup="searchProducts(this.value)" class="w-full bg-gray-50 border-gray-200 border rounded-full py-2.5 pl-5 pr-12 text-sm focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none" placeholder="Ürün, kategori veya marka ara...">
                         <button class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500">
                             <span class="material-symbols-outlined">search</span>
                         </button>
@@ -318,18 +378,15 @@ const fullHtml = `<!DOCTYPE html>
             </div>
         </div>
         
-        <!-- Desktop Nav without overflow hidden to allow dropdown -->
         <nav class="bg-white relative z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <ul class="flex text-sm font-semibold text-gray-600 h-14 items-center gap-8">
                     <li><button onclick="filterCategory('all')" class="hover:text-orange-500 transition-colors text-orange-500 py-4 block font-bold">Tüm Ürünler</button></li>
                     
-                    <!-- Kategoriler Menu with click dropdown -->
                     <li class="relative py-4">
                         <button id="cat-btn" onclick="toggleDropdown(event)" class="hover:text-orange-500 transition-colors flex items-center gap-1 font-bold">
                             Kategoriler <span class="material-symbols-outlined text-sm">expand_more</span>
                         </button>
-                        <!-- Dropdown -->
                         <div id="cat-dropdown" class="absolute top-[56px] left-0 w-64 bg-white border border-gray-100 shadow-2xl rounded-xl py-3 opacity-0 invisible transition-all duration-200 transform origin-top-left translate-y-2 z-50">
                             <button onclick="filterCategory('soframutfak')" class="w-full text-left px-5 py-3 text-sm text-gray-700 font-semibold hover:bg-orange-50 hover:text-orange-600 transition-colors border-b border-gray-50 flex items-center gap-2"><span class="text-lg">🍽️</span> Sofra & Mutfak</button>
                             <button onclick="filterCategory('evtekstili')" class="w-full text-left px-5 py-3 text-sm text-gray-700 font-semibold hover:bg-orange-50 hover:text-orange-600 transition-colors border-b border-gray-50 flex items-center gap-2"><span class="text-lg">🛋️</span> Ev Tekstili</button>
@@ -383,7 +440,6 @@ const fullHtml = `<!DOCTYPE html>
             <span class="material-symbols-outlined text-[24px] mb-1">home</span>
             <span class="text-[9px] font-bold">Anasayfa</span>
         </button>
-        <!-- On mobile, clicking Kategoriler scrolls to top where the chips are -->
         <button onclick="window.scrollTo(0,0);" class="flex flex-col items-center flex-1 py-3 text-gray-500 hover:text-orange-500 transition-colors">
             <span class="material-symbols-outlined text-[24px] mb-1">category</span>
             <span class="text-[9px] font-bold">Kategoriler</span>
@@ -402,4 +458,4 @@ const fullHtml = `<!DOCTYPE html>
 </html>`;
 
 fs.writeFileSync('C:\\Users\\Mustafa\\.gemini\\antigravity\\scratch\\edis\\index.html', fullHtml, 'utf-8');
-console.log('Successfully updated index.html for ultimate mobile responsiveness and clickable dropdowns.');
+console.log('Successfully updated index.html with active search and mobile menu items.');

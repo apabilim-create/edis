@@ -30,13 +30,23 @@
             document.body.style.overflow = 'auto';
         }
 
+        // Kategori filtreleme
         function filterCategory(catId) {
             const categories = ['soframutfak', 'evtekstili', 'elektriklievaletleri'];
+            
+            // Tüm arama inputlarını temizle
+            document.getElementById('searchInputMobile').value = '';
+            document.getElementById('searchInputDesktop').value = '';
             
             if (catId === 'all') {
                 categories.forEach(id => {
                     const el = document.getElementById(id);
-                    if(el) el.style.display = 'block';
+                    if(el) {
+                        el.style.display = 'block';
+                        // Tüm ürünleri göster
+                        const products = el.querySelectorAll('.product-card');
+                        products.forEach(p => p.style.display = 'flex');
+                    }
                 });
             } else {
                 categories.forEach(id => {
@@ -44,6 +54,9 @@
                     if(el) {
                         if (id === catId) {
                             el.style.display = 'block';
+                            // Kategorideki tüm ürünleri göster
+                            const products = el.querySelectorAll('.product-card');
+                            products.forEach(p => p.style.display = 'flex');
                         } else {
                             el.style.display = 'none';
                         }
@@ -58,8 +71,42 @@
                 dd.classList.add('opacity-0', 'invisible', 'translate-y-2');
             }
             
-            // İçeriğe kaydır
             document.getElementById('urunler').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        // Arama (Search) Fonksiyonu
+        function searchProducts(query) {
+            query = query.toLowerCase().trim();
+            const categories = document.querySelectorAll('.category-section');
+            let foundAny = false;
+            
+            categories.forEach(cat => {
+                let hasVisible = false;
+                const products = cat.querySelectorAll('.product-card');
+                
+                products.forEach(card => {
+                    const title = card.getAttribute('data-title').toLowerCase();
+                    if (title.includes(query)) {
+                        card.style.display = 'flex';
+                        hasVisible = true;
+                        foundAny = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Kategorinin içinde görünen ürün varsa kategoriyi göster, yoksa gizle
+                if (hasVisible) {
+                    cat.style.display = 'block';
+                } else {
+                    cat.style.display = 'none';
+                }
+            });
+            
+            // Kullanıcı arama yapıyorsa ve ilk harfi girdiyse aşağı kaydır
+            if(query.length === 1 && foundAny) {
+                document.getElementById('urunler').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
         
         function toggleDropdown(e) {
@@ -74,7 +121,6 @@
             }
         }
 
-        // Tıklama dışı alanı yakalayıp menüyü kapatma
         document.addEventListener('click', function(event) {
             const dd = document.getElementById('cat-dropdown');
             const btn = document.getElementById('cat-btn');
@@ -107,21 +153,34 @@
                 </div>
             </div>
         </div>
-        <!-- Mobile Search Bar -->
+        <!-- Mobile Search Bar (Aktif Edildi) -->
         <div class="px-4 pb-3">
             <div class="relative w-full">
-                <input type="text" class="w-full bg-gray-100 border-transparent rounded-lg py-2 pl-4 pr-10 text-sm focus:bg-white focus:border-orange-500 border outline-none" placeholder="Ürün veya kategori ara...">
+                <input id="searchInputMobile" type="text" onkeyup="searchProducts(this.value)" class="w-full bg-gray-100 border-transparent rounded-lg py-2 pl-4 pr-10 text-sm focus:bg-white focus:border-orange-500 border outline-none" placeholder="Ürün veya kategori ara...">
                 <button class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500">
                     <span class="material-symbols-outlined text-[20px]">search</span>
                 </button>
             </div>
         </div>
-        <!-- Mobile Category Chips (Scrollable horizontally) -->
-        <div class="px-4 pb-3 overflow-x-auto hide-scrollbar flex gap-2">
+        <!-- Mobile Category & Extra Menus Chips (Scrollable horizontally) -->
+        <div class="px-4 pb-3 overflow-x-auto hide-scrollbar flex gap-2 items-center">
             <button onclick="filterCategory('all')" class="whitespace-nowrap px-4 py-1.5 bg-orange-500 text-white text-xs font-bold rounded-full shadow-sm">Tüm Ürünler</button>
             <button onclick="filterCategory('soframutfak')" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full">Sofra & Mutfak</button>
             <button onclick="filterCategory('evtekstili')" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full">Ev Tekstili</button>
             <button onclick="filterCategory('elektriklievaletleri')" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full">Ev Aletleri</button>
+            
+            <div class="w-px h-6 bg-gray-200 mx-1 flex-shrink-0"></div> <!-- Divider -->
+            
+            <!-- Eksik menüler mobilde eklendi -->
+            <a href="#" class="whitespace-nowrap px-3 py-1.5 bg-gray-50 text-gray-800 hover:text-orange-500 text-xs font-bold rounded-full flex items-center gap-1 border border-gray-100">
+                <span class="material-symbols-outlined text-[14px] text-orange-500">trending_up</span> Çok Satanlar
+            </a>
+            <a href="#" class="whitespace-nowrap px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 text-xs font-bold rounded-full flex items-center gap-1 border border-red-100">
+                <span class="material-symbols-outlined text-[14px]">sell</span> İndirimler
+            </a>
+            <a href="#" class="whitespace-nowrap px-3 py-1.5 bg-orange-50 text-orange-600 hover:bg-orange-100 text-xs font-bold rounded-full border border-orange-200">
+                Toptan Satış
+            </a>
         </div>
     </header>
 
@@ -134,9 +193,10 @@
                     <span class="font-extrabold text-2xl text-gray-900 tracking-tight">edis<span class="text-orange-500">.</span></span>
                 </div>
                 
+                <!-- Desktop Search Bar (Aktif Edildi) -->
                 <div class="flex-1 max-w-xl mx-8">
                     <div class="relative w-full">
-                        <input type="text" class="w-full bg-gray-50 border-gray-200 border rounded-full py-2.5 pl-5 pr-12 text-sm focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none" placeholder="Ürün, kategori veya marka ara...">
+                        <input id="searchInputDesktop" type="text" onkeyup="searchProducts(this.value)" class="w-full bg-gray-50 border-gray-200 border rounded-full py-2.5 pl-5 pr-12 text-sm focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none" placeholder="Ürün, kategori veya marka ara...">
                         <button class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500">
                             <span class="material-symbols-outlined">search</span>
                         </button>
@@ -161,18 +221,15 @@
             </div>
         </div>
         
-        <!-- Desktop Nav without overflow hidden to allow dropdown -->
         <nav class="bg-white relative z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <ul class="flex text-sm font-semibold text-gray-600 h-14 items-center gap-8">
                     <li><button onclick="filterCategory('all')" class="hover:text-orange-500 transition-colors text-orange-500 py-4 block font-bold">Tüm Ürünler</button></li>
                     
-                    <!-- Kategoriler Menu with click dropdown -->
                     <li class="relative py-4">
                         <button id="cat-btn" onclick="toggleDropdown(event)" class="hover:text-orange-500 transition-colors flex items-center gap-1 font-bold">
                             Kategoriler <span class="material-symbols-outlined text-sm">expand_more</span>
                         </button>
-                        <!-- Dropdown -->
                         <div id="cat-dropdown" class="absolute top-[56px] left-0 w-64 bg-white border border-gray-100 shadow-2xl rounded-xl py-3 opacity-0 invisible transition-all duration-200 transform origin-top-left translate-y-2 z-50">
                             <button onclick="filterCategory('soframutfak')" class="w-full text-left px-5 py-3 text-sm text-gray-700 font-semibold hover:bg-orange-50 hover:text-orange-600 transition-colors border-b border-gray-50 flex items-center gap-2"><span class="text-lg">🍽️</span> Sofra & Mutfak</button>
                             <button onclick="filterCategory('evtekstili')" class="w-full text-left px-5 py-3 text-sm text-gray-700 font-semibold hover:bg-orange-50 hover:text-orange-600 transition-colors border-b border-gray-50 flex items-center gap-2"><span class="text-lg">🛋️</span> Ev Tekstili</button>
@@ -214,7 +271,7 @@
             </h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
     
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Comely Seramik Kahvaltı Takımı 32 parça 6 kişilik Renkli">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_0')">
                         <img alt="English Home Comely Seramik Kahvaltı Takımı 32 parça 6 kişilik Renkli" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/24602a90-8418-37e5-883c-0c8778c5b4c7/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -228,7 +285,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Cosmos Seramik Kahvaltı Takımı 14 parça 6 kişilik Lacivert">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_1')">
                         <img alt="English Home Cosmos Seramik Kahvaltı Takımı 14 parça 6 kişilik Lacivert" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1829/prod/QC_ENRICHMENT/20260218/18/af3228d7-b4f7-3f5b-aefe-41aed872d7a9/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -242,7 +299,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Splash Seramik Kahvaltı Takımı 10 parça 4 kişilik Kırmızı-Pembe">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_2')">
                         <img alt="English Home Splash Seramik Kahvaltı Takımı 10 parça 4 kişilik Kırmızı-Pembe" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/0a3610ac-33e1-3375-9262-b2ffe1b0ad47/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -256,7 +313,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Linea Seramik Kahvaltı Takımı 14 parça 6 kişilik Renkli">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_3')">
                         <img alt="English Home Linea Seramik Kahvaltı Takımı 14 parça 6 kişilik Renkli" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/67eadadc-33df-3328-a42d-ae8e416e4033/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -270,7 +327,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Cloves Seramik Kahvaltı Takımı 32 parça 6 kişilik Pembe">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_4')">
                         <img alt="English Home Cloves Seramik Kahvaltı Takımı 32 parça 6 kişilik Pembe" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1849/prod/QC_ENRICHMENT/20260403/22/3a8f7ad1-6b4d-36bf-869b-eee4cdc0f7a1/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -284,7 +341,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Elena Seramik Yemek Takımı 16 Parça 4 Kişilik Yeşil-Turuncu">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_5')">
                         <img alt="English Home Elena Seramik Yemek Takımı 16 Parça 4 Kişilik Yeşil-Turuncu" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1770/prod/QC_ENRICHMENT/20251014/09/c8dd11b7-bcd2-3cd0-8018-355b8bee393f/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -298,7 +355,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Whisper Seramik Kahvaltı Takımı 8 Parça 2 Kişilik Mavi">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_6')">
                         <img alt="English Home Whisper Seramik Kahvaltı Takımı 8 Parça 2 Kişilik Mavi" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1850/prod/QC_ENRICHMENT/20260403/22/b8ae3b77-a6af-373b-b78f-75b5bf787d87/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -312,7 +369,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Azalia New Bone China 4 Parça 2 Kişilik Kahve Fincan Takımı 90 ml Renkli">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_20')">
                         <img alt="English Home Azalia New Bone China 4 Parça 2 Kişilik Kahve Fincan Takımı 90 ml Renkli" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1838/prod/QC_ENRICHMENT/20260312/10/89169e5b-4cf5-3ea0-8e77-68255071bc43/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -326,7 +383,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Talisman Magic New Bone China 4 Parça Kahve Fincan Takımı 100 ml Pembe">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_21')">
                         <img alt="English Home Talisman Magic New Bone China 4 Parça Kahve Fincan Takımı 100 ml Pembe" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1848/prod/QC_ENRICHMENT/20260403/22/93aa7a9b-903b-3db0-a4fc-9c4d2dc0cd76/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -340,7 +397,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Vanilla Porselen 2'li Kahve Fincan Takımı 90 Ml Kırmızı">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_22')">
                         <img alt="English Home Vanilla Porselen 2'li Kahve Fincan Takımı 90 Ml Kırmızı" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty371/product/media/images/20220323/12/74969451/424052271/1/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -354,7 +411,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Vanilla New Bone China Kahve Fincan Takımı 4 Parça 2 Kişilik Açık Gri">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_23')">
                         <img alt="English Home Vanilla New Bone China Kahve Fincan Takımı 4 Parça 2 Kişilik Açık Gri" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1819/prod/QC_ENRICHMENT/20260204/17/c6950104-0676-3614-a54f-2dcaf3b462a3/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -368,7 +425,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Ember Porselen 4 Parça 2 Kişilik Kahve Fincan Takımı 80 ml Turkuaz">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_24')">
                         <img alt="English Home Ember Porselen 4 Parça 2 Kişilik Kahve Fincan Takımı 80 ml Turkuaz" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1848/prod/QC_ENRICHMENT/20260403/22/c1dd18d4-444d-3c87-a4d4-fdf716d7c681/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -382,7 +439,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Talisman Magic New Bone China 4 Parça Kahve Fincan Takımı 100 ml Beyaz">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_25')">
                         <img alt="English Home Talisman Magic New Bone China 4 Parça Kahve Fincan Takımı 100 ml Beyaz" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1814/prod/QC_ENRICHMENT/20260121/16/6d19612c-9067-3057-a022-c41ca040ce14/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -396,7 +453,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Vanilla New Bone China 4 Parça 2 Kişilik Kahve Fıncan Takımı 90 Ml Açık Sarı">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_26')">
                         <img alt="English Home Vanilla New Bone China 4 Parça 2 Kişilik Kahve Fıncan Takımı 90 Ml Açık Sarı" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/0a849f36-be95-30ef-bc0d-92d4ca5c9fe5/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -410,7 +467,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Bellis Porselen 4 Parça 2 Kişilik Kahve Fincan Takımı Lacivert">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_27')">
                         <img alt="English Home Bellis Porselen 4 Parça 2 Kişilik Kahve Fincan Takımı Lacivert" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1829/prod/QC_ENRICHMENT/20260218/18/099a99c4-9556-3312-8286-06cb3fd4c401/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -424,7 +481,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Angled New Bone China 2 Parça 2 Kişilik Kahve Fincan Takımı 90 ml Turkuaz">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_28')">
                         <img alt="English Home Angled New Bone China 2 Parça 2 Kişilik Kahve Fincan Takımı 90 ml Turkuaz" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/a07c7862-921b-3ec2-8525-27a456898eea/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -438,7 +495,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Holiday Shine New Bone China 4 Parça Kahve Fincan Takımı 90 ml Kırmızı">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_29')">
                         <img alt="English Home Holiday Shine New Bone China 4 Parça Kahve Fincan Takımı 90 ml Kırmızı" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1790/prod/QC_PREP/20251112/16/62ffc7cf-7993-302b-ab47-6a18bf8a9f64/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -462,7 +519,7 @@
             </h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
     
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Bordo">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_9')">
                         <img alt="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Bordo" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/076109c5-5f75-3e7d-9245-9a48c4347cfb/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -476,7 +533,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Krem">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_10')">
                         <img alt="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Krem" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1818/prod/QC_ENRICHMENT/20260204/17/b9d9d80d-0f15-3e6f-8d2a-92ca8c1ffa3a/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -490,7 +547,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Sarı">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_11')">
                         <img alt="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Sarı" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1604/prod/QC/20241114/20/df2328c2-6ef5-31d6-9bb2-1bb1d8f7b399/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -504,7 +561,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Yeşil">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_12')">
                         <img alt="English Home Cozy Oasis Supersoft Tv Battaniye 120x160 cm Yeşil" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1850/prod/QC_ENRICHMENT/20260403/22/7e7ae3ab-cc2c-3a3b-9e44-f4f880649482/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -518,7 +575,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home romantic memories Akrilik Tv Battaniye 130x170 cm Vişne">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_13')">
                         <img alt="English Home romantic memories Akrilik Tv Battaniye 130x170 cm Vişne" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1829/prod/QC_ENRICHMENT/20260218/18/304faa25-69d8-3310-b08f-4da780f4b133/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -532,7 +589,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Flora Drape Çift Kişilik Çok Amaçlı Örtü 200x220 cm Yeşil">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_14')">
                         <img alt="English Home Flora Drape Çift Kişilik Çok Amaçlı Örtü 200x220 cm Yeşil" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/627adbaa-244a-3f63-82a7-1d9bdfbf3170/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -546,7 +603,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Strada Grid Çift Kişilik Çok Amaçlı Örtü 200x220 cm Yeşil">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_15')">
                         <img alt="English Home Strada Grid Çift Kişilik Çok Amaçlı Örtü 200x220 cm Yeşil" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/7fd59761-7034-32d0-bd8f-265619b2f785/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -560,7 +617,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home William Pamuklu Çift Kişilik Battaniye 200x220 cm Bej">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_16')">
                         <img alt="English Home William Pamuklu Çift Kişilik Battaniye 200x220 cm Bej" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1820/prod/QC_ENRICHMENT/20260204/17/1d0ab94a-b844-3f51-abea-0e4fe893c0d3/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -574,7 +631,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Diamond Clam Çift Kişilik Çok Amaçlı Örtü 200x220 cm Bordo">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_17')">
                         <img alt="English Home Diamond Clam Çift Kişilik Çok Amaçlı Örtü 200x220 cm Bordo" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/011a605e-62b9-30a5-b317-79a054af191a/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -588,7 +645,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Bleublanc Patch Çift Kişilik Çok Amaçlı Örtü 200x220 cm Mavi">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_18')">
                         <img alt="English Home Bleublanc Patch Çift Kişilik Çok Amaçlı Örtü 200x220 cm Mavi" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/77e71826-bb47-339b-a047-48cfb94bdd57/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -602,7 +659,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home Serenade Kolay Ütülenir Çift Kişilik Nevresim Seti 200x220 cm Yeşil">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_19')">
                         <img alt="English Home Serenade Kolay Ütülenir Çift Kişilik Nevresim Seti 200x220 cm Yeşil" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/f2929975-7504-36a5-8f81-c5ab403e6954/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -626,7 +683,7 @@
             </h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
     
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home SBL 3001 Sürahi Blend,Siyah-Krom,1750 ml">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_7')">
                         <img alt="English Home SBL 3001 Sürahi Blend,Siyah-Krom,1750 ml" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1766/prod/QC_ENRICHMENT/20251002/12/4ef9d691-b583-3372-9e40-312b44cb0b69/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -640,7 +697,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10" data-title="English Home RMB 3001 4 Bıçaklı Multi Blender Seti 1500W Beyaz-Krom">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('prod_8')">
                         <img alt="English Home RMB 3001 4 Bıçaklı Multi Blender Seti 1500W Beyaz-Krom" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1829/prod/QC_ENRICHMENT/20260218/18/bbe6ddb8-73a0-3c1f-857a-19bdfdb005fc/1_org_zoom.jpg"/>
                         <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
@@ -2116,7 +2173,6 @@
             <span class="material-symbols-outlined text-[24px] mb-1">home</span>
             <span class="text-[9px] font-bold">Anasayfa</span>
         </button>
-        <!-- On mobile, clicking Kategoriler scrolls to top where the chips are -->
         <button onclick="window.scrollTo(0,0);" class="flex flex-col items-center flex-1 py-3 text-gray-500 hover:text-orange-500 transition-colors">
             <span class="material-symbols-outlined text-[24px] mb-1">category</span>
             <span class="text-[9px] font-bold">Kategoriler</span>
