@@ -1286,7 +1286,7 @@ const fullHtml = `<!DOCTYPE html>
             
             <div class="w-px h-5 bg-gray-200 mx-1 flex-shrink-0"></div> <!-- Divider -->
             
-            <a href="#" class="whitespace-nowrap px-3 py-1.5 bg-gray-50 text-gray-800 hover:text-orange-500 text-xs font-bold rounded-full flex items-center gap-1 border border-gray-100"><span class="material-symbols-outlined text-[14px] text-orange-500">trending_up</span> Çok Satanlar</a>
+            <a href="javascript:void(0)" onclick="filterBrand('Tantitoni')" class="whitespace-nowrap px-3 py-1.5 bg-gray-50 text-gray-800 hover:text-orange-500 text-xs font-bold rounded-full flex items-center gap-1 border border-gray-100"><span class="material-symbols-outlined text-[14px] text-orange-500">trending_up</span> Çok Satanlar</a>
             <a href="#" class="whitespace-nowrap px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 text-xs font-bold rounded-full flex items-center gap-1 border border-red-100"><span class="material-symbols-outlined text-[14px]">sell</span> İndirimler</a>
             <a href="#" class="whitespace-nowrap px-3 py-1.5 bg-orange-500 text-white hover:bg-orange-600 text-xs font-bold rounded-full border border-orange-600 shadow-sm">Toptan Satış</a>
         </div>
@@ -1339,7 +1339,7 @@ const fullHtml = `<!DOCTYPE html>
                         </div>
                     </li>
                     
-                    <li><a href="#" class="hover:text-orange-500 transition-colors text-gray-800 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-orange-500 text-[18px]">trending_up</span> Çok Satanlar</a></li>
+                    <li><a href="javascript:void(0)" onclick="filterBrand('Tantitoni')" class="hover:text-orange-500 transition-colors text-gray-800 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-orange-500 text-[18px]">trending_up</span> Çok Satanlar</a></li>
                     <li><a href="#" class="hover:text-orange-500 transition-colors text-red-600 font-bold flex items-center gap-1"><span class="material-symbols-outlined text-red-500 text-[18px]">sell</span> İndirimler</a></li>
                     <li><a href="#" class="hover:text-orange-500 transition-colors text-orange-600 font-bold bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-100">Toptan Satış</a></li>
                 </ul>
