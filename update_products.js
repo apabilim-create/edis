@@ -603,15 +603,24 @@ const categorizedProducts = newProducts.map((p, index) => {
     let title = p.title.toLowerCase();
     let category = 'diger'; // Default
     
-    // Categorize logic
-    if (title.includes('termos') || title.includes('bardak') || title.includes('çatal') || title.includes('kaşık') || title.includes('kase') || title.includes('tencere') || title.includes('yemek') || title.includes('fincan') || title.includes('kahvaltı') || title.includes('çerezlik') || title.includes('kavanoz') || title.includes('kesme tahtası') || title.includes('demlik') || title.includes('spatula') || title.includes('tereyağlık') || title.includes('saklama') || title.includes('cezve') || title.includes('kurabiyelik') || title.includes('porselen')) {
-        category = 'soframutfak';
+    // Better Categorization Logic
+    if (title.includes('termos') || title.includes('matara') || title.includes('bardak') || title.includes('fincan') || title.includes('mug')) {
+        category = 'termosbardak';
     } 
-    else if (title.includes('battaniye') || title.includes('yorgan') || title.includes('nevresim') || title.includes('örtü') || title.includes('yastık') || title.includes('paspas')) {
+    else if (title.includes('tencere') || title.includes('çatal') || title.includes('kaşık') || title.includes('bıçak') || title.includes('yemek takımı') || title.includes('kahvaltı takımı') || title.includes('çerezlik') || title.includes('fincan takımı') || title.includes('cezve') || title.includes('kurabiyelik') || title.includes('porselen') || title.includes('seramik') || title.includes('kase') || title.includes('spatula') || title.includes('çelik tencere') || title.includes('kızartma tenceresi')) {
+        category = 'soframutfak';
+    }
+    else if (title.includes('saklama kabı') || title.includes('kavanoz') || title.includes('saklama kutusu') || title.includes('sepet') || title.includes('organizer') || title.includes('kesme tahtası') || title.includes('tereyağlık')) {
+        category = 'saklamahazirlik';
+    }
+    else if (title.includes('battaniye') || title.includes('yorgan') || title.includes('nevresim') || title.includes('örtü') || title.includes('yastık') || title.includes('paspas') || title.includes('havlu')) {
         category = 'evtekstili';
     } 
-    else if (title.includes('makinesi') || title.includes('blender') || title.includes('kettle')) {
-        category = 'evaletleri';
+    else if (title.includes('makinesi') || title.includes('blender') || title.includes('kettle') || title.includes('ütü masası') || title.includes('evaletleri')) {
+        category = 'elektriklievaletleri';
+    }
+    else if (title.includes('oda kokusu') || title.includes('oda spreyi') || title.includes('çerçeve') || title.includes('sıcak su torbası') || title.includes('maske')) {
+        category = 'dekorasyonyasam';
     }
     
     return {
