@@ -87,12 +87,12 @@ for (const [categoryName, items] of Object.entries(categories)) {
     
     items.forEach(p => {
         categoryHtml += `
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="aspect-square relative overflow-hidden bg-gray-50 cursor-pointer" onclick="openModal('${p.id}')">
-                        <img alt="${p.title}" class="w-full h-full object-contain p-4 transition-transform group-hover:scale-105 duration-500" src="${p.img}"/>
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex flex-col group hover:shadow-[0_8px_30px_rgba(242,122,26,0.15)] transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="aspect-square relative overflow-hidden bg-white border-2 border-orange-200 rounded-t-2xl cursor-pointer" onclick="openModal('${p.id}')">
+                        <img alt="${p.title}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="${p.img}"/>
                         <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">${p.price}</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow">
+                    <div class="p-4 flex flex-col justify-between flex-grow border-x border-b border-gray-100 rounded-b-2xl">
                         <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="${p.title}" onclick="openModal('${p.id}')">${p.title}</h4>
                         <button onclick="openModal('${p.id}')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
                             <span class="material-symbols-outlined text-[18px]">info</span>
@@ -111,13 +111,13 @@ for (const [categoryName, items] of Object.entries(categories)) {
                 </button>
                 
                 <div class="w-full md:w-1/2 bg-gray-50 p-6 flex items-center justify-center min-h-[300px]">
-                    <img src="${p.img}" alt="${p.title}" class="max-w-full max-h-[400px] object-contain drop-shadow-xl rounded-xl" />
+                    <img src="${p.img}" alt="${p.title}" class="max-w-full max-h-[400px] object-cover drop-shadow-xl rounded-xl border border-orange-200" />
                 </div>
                 
                 <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col overflow-y-auto">
                     <div class="uppercase tracking-widest text-xs font-bold text-orange-500 mb-2">Trendyol Özel</div>
                     <h2 class="text-2xl font-bold text-gray-900 mb-4 leading-tight">${p.title}</h2>
-                    <div class="text-3xl font-extrabold text-orange-600 mb-6">${p.price}</div>
+                    <div class="text-3xl font-extrabold text-orange-600 mb-6" id="price-${p.id}">${p.price}</div>
                     
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
@@ -162,7 +162,8 @@ const fullHtml = `<!DOCTYPE html>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fa; }
+        /* Hafif griye çalan kırık beyaz zemin */
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f2f3f5; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #f27a1a; border-radius: 10px; }
@@ -223,14 +224,16 @@ const fullHtml = `<!DOCTYPE html>
             </div>
         </div>
         
-        <nav class="border-t border-gray-100 hidden md:block bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <ul class="flex space-x-8 text-sm font-semibold text-gray-600 h-12 items-center">
-                    <li><a href="#urunler" class="hover:text-orange-500 transition-colors text-orange-500 border-b-2 border-orange-500 py-3">Ürünlerimiz</a></li>
+        <!-- Menü her ekranda görünür yapıldı (overflow-x-auto eklendi) -->
+        <nav class="border-t border-gray-100 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
+                <ul class="flex space-x-6 md:space-x-8 text-sm font-semibold text-gray-600 h-14 items-center whitespace-nowrap min-w-max">
+                    <li><a href="#urunler" class="hover:text-orange-500 transition-colors text-orange-500 border-b-2 border-orange-500 py-4">Ürünlerimiz</a></li>
                     <li><a href="#" class="hover:text-orange-500 transition-colors">Firmamız</a></li>
                     <li><a href="#" class="hover:text-orange-500 transition-colors">Markalarımız</a></li>
+                    <li><a href="#" class="hover:text-orange-500 transition-colors text-orange-600 font-bold bg-orange-50 px-3 py-1.5 rounded-lg border border-orange-100">Toptan Satış</a></li>
                     <li><a href="#" class="hover:text-orange-500 transition-colors">İletişim</a></li>
-                    <li class="ml-auto text-orange-600 flex items-center gap-1 font-bold"><span class="material-symbols-outlined text-sm">local_shipping</span> Kargo Bedava</li>
+                    <li class="md:ml-auto text-orange-600 flex items-center gap-1 font-bold pl-4 border-l border-gray-200"><span class="material-symbols-outlined text-sm">local_shipping</span> Kargo Bedava</li>
                 </ul>
             </div>
         </nav>
@@ -277,8 +280,8 @@ const fullHtml = `<!DOCTYPE html>
             Ara
         </a>
         <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
-            <span class="material-symbols-outlined text-2xl mb-1">favorite</span>
-            Favoriler
+            <span class="material-symbols-outlined text-2xl mb-1">store</span>
+            Toptan Satış
         </a>
         <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
             <span class="material-symbols-outlined text-2xl mb-1">person</span>
@@ -289,4 +292,4 @@ const fullHtml = `<!DOCTYPE html>
 </html>`;
 
 fs.writeFileSync('C:\\Users\\Mustafa\\.gemini\\antigravity\\scratch\\edis\\index.html', fullHtml, 'utf-8');
-console.log('Successfully updated index.html with categorized products, trendyol orange theme, and modals.');
+console.log('Successfully updated index.html with cover images, off-white background, and visible menus including Toptan Satis.');
