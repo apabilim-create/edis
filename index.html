@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="dark" lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Edis E-ticaret</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+                "background": "#0b1f14",
+                "surface": "#0b1f14",
+                "surface-container": "#123321",
+                "surface-container-high": "#163b27",
+                "primary": "#ffb59a",
+                "on-primary": "#561a00",
+                "on-surface": "#e6e1de",
+                "on-surface-variant": "#d8c2bb"
+            },
+            fontFamily: {
+                "headline": ["Epilogue"],
+                "body": ["Plus Jakarta Sans"]
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        body { min-height: 100dvh; }
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen pb-24 antialiased">
+    <!-- Header -->
+    <header class="bg-surface-container sticky top-0 z-50 border-b border-white/5 shadow-lg shadow-black/20 backdrop-blur-xl">
+        <div class="flex justify-between items-center w-full px-6 py-4">
+            <h1 class="text-2xl font-bold tracking-tight text-primary font-headline">Edis E-ticaret</h1>
+            <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 transition-all active:scale-95 text-primary md:hidden">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <nav class="hidden md:flex gap-6 text-sm font-semibold">
+                <a href="#urunler" class="hover:text-primary transition-colors">Ürünler</a>
+                <a href="#firmamiz" class="hover:text-primary transition-colors">Firmamız</a>
+                <a href="#iletisim" class="hover:text-primary transition-colors">İletişim</a>
+                <a href="#markalarimiz" class="hover:text-primary transition-colors">Markalarımız</a>
+            </nav>
+        </div>
+        <!-- Mobile Categories Chips -->
+        <div class="md:hidden overflow-x-auto no-scrollbar px-6 py-3 border-t border-white/5">
+            <div class="flex gap-2">
+                <a href="#urunler" class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-bold text-sm whitespace-nowrap active:scale-95 transition-transform shadow-lg shadow-primary/20">Ürünler</a>
+                <a href="#firmamiz" class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-bold text-sm whitespace-nowrap hover:bg-white/5 transition-colors border border-white/5">Firmamız</a>
+                <a href="#iletisim" class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-bold text-sm whitespace-nowrap hover:bg-white/5 transition-colors border border-white/5">İletişim</a>
+                <a href="#markalarimiz" class="px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-bold text-sm whitespace-nowrap hover:bg-white/5 transition-colors border border-white/5">Markalarımız</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="px-6 pt-8 space-y-12 max-w-7xl mx-auto">
+        <!-- Products Section -->
+        <section id="urunler">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-headline text-2xl font-bold text-on-surface">Ürünlerimiz</h2>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Product 1 -->
+                <div class="bg-surface-container-high rounded-2xl overflow-hidden shadow-xl border border-white/5 flex flex-col group">
+                    <div class="aspect-square relative overflow-hidden">
+                        <img alt="Ürün" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500 bg-white" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/24602a90-8418-37e5-883c-0c8778c5b4c7/1_org_zoom.jpg"/>
+                        <span class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-primary px-2 py-1 rounded-lg text-xs font-bold">3.725 TL</span>
+                    </div>
+                    <div class="p-3 flex flex-col justify-between flex-grow">
+                        <h4 class="font-headline text-sm font-semibold mb-3 text-on-surface line-clamp-2">English Home Comely Seramik Kahvaltı Takımı 32 parça 6 kişilik Renkli</h4>
+                        <button class="w-full py-2 border border-primary/30 bg-primary/10 text-primary rounded-lg font-bold text-xs hover:bg-primary/20 transition-all active:scale-95">
+                            Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 2 -->
+                <div class="bg-surface-container-high rounded-2xl overflow-hidden shadow-xl border border-white/5 flex flex-col group">
+                    <div class="aspect-square relative overflow-hidden">
+                        <img alt="Ürün" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500 bg-white" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1829/prod/QC_ENRICHMENT/20260218/18/af3228d7-b4f7-3f5b-aefe-41aed872d7a9/1_org_zoom.jpg"/>
+                        <span class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-primary px-2 py-1 rounded-lg text-xs font-bold">1.999 TL</span>
+                    </div>
+                    <div class="p-3 flex flex-col justify-between flex-grow">
+                        <h4 class="font-headline text-sm font-semibold mb-3 text-on-surface line-clamp-2">English Home Cosmos Seramik Kahvaltı Takımı 14 parça 6 kişilik Lacivert</h4>
+                        <button class="w-full py-2 border border-primary/30 bg-primary/10 text-primary rounded-lg font-bold text-xs hover:bg-primary/20 transition-all active:scale-95">
+                            Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 3 -->
+                <div class="bg-surface-container-high rounded-2xl overflow-hidden shadow-xl border border-white/5 flex flex-col group">
+                    <div class="aspect-square relative overflow-hidden">
+                        <img alt="Ürün" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500 bg-white" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1827/prod/QC_ENRICHMENT/20260218/18/0a3610ac-33e1-3375-9262-b2ffe1b0ad47/1_org_zoom.jpg"/>
+                        <span class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-primary px-2 py-1 rounded-lg text-xs font-bold">1.229 TL</span>
+                    </div>
+                    <div class="p-3 flex flex-col justify-between flex-grow">
+                        <h4 class="font-headline text-sm font-semibold mb-3 text-on-surface line-clamp-2">English Home Splash Seramik Kahvaltı Takımı 10 parça 4 kişilik Kırmızı-Pembe</h4>
+                        <button class="w-full py-2 border border-primary/30 bg-primary/10 text-primary rounded-lg font-bold text-xs hover:bg-primary/20 transition-all active:scale-95">
+                            Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 4 -->
+                <div class="bg-surface-container-high rounded-2xl overflow-hidden shadow-xl border border-white/5 flex flex-col group">
+                    <div class="aspect-square relative overflow-hidden">
+                        <img alt="Ürün" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500 bg-white" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1828/prod/QC_ENRICHMENT/20260218/18/67eadadc-33df-3328-a42d-ae8e416e4033/1_org_zoom.jpg"/>
+                        <span class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-primary px-2 py-1 rounded-lg text-xs font-bold">1.845 TL</span>
+                    </div>
+                    <div class="p-3 flex flex-col justify-between flex-grow">
+                        <h4 class="font-headline text-sm font-semibold mb-3 text-on-surface line-clamp-2">English Home Linea Seramik Kahvaltı Takımı 14 parça 6 kişilik Renkli</h4>
+                        <button class="w-full py-2 border border-primary/30 bg-primary/10 text-primary rounded-lg font-bold text-xs hover:bg-primary/20 transition-all active:scale-95">
+                            Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 5 -->
+                <div class="bg-surface-container-high rounded-2xl overflow-hidden shadow-xl border border-white/5 flex flex-col group">
+                    <div class="aspect-square relative overflow-hidden">
+                        <img alt="Ürün" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500 bg-white" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1849/prod/QC_ENRICHMENT/20260403/22/3a8f7ad1-6b4d-36bf-869b-eee4cdc0f7a1/1_org_zoom.jpg"/>
+                        <span class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-primary px-2 py-1 rounded-lg text-xs font-bold">2.318 TL</span>
+                    </div>
+                    <div class="p-3 flex flex-col justify-between flex-grow">
+                        <h4 class="font-headline text-sm font-semibold mb-3 text-on-surface line-clamp-2">English Home Cloves Seramik Kahvaltı Takımı 32 parça 6 kişilik Pembe</h4>
+                        <button class="w-full py-2 border border-primary/30 bg-primary/10 text-primary rounded-lg font-bold text-xs hover:bg-primary/20 transition-all active:scale-95">
+                            Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+                <!-- Product 6 -->
+                <div class="bg-surface-container-high rounded-2xl overflow-hidden shadow-xl border border-white/5 flex flex-col group">
+                    <div class="aspect-square relative overflow-hidden">
+                        <img alt="Ürün" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500 bg-white" src="https://cdn.dsmcdn.com/mnresize/400/-/ty1770/prod/QC_ENRICHMENT/20251014/09/c8dd11b7-bcd2-3cd0-8018-355b8bee393f/1_org_zoom.jpg"/>
+                        <span class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-primary px-2 py-1 rounded-lg text-xs font-bold">1.799 TL</span>
+                    </div>
+                    <div class="p-3 flex flex-col justify-between flex-grow">
+                        <h4 class="font-headline text-sm font-semibold mb-3 text-on-surface line-clamp-2">English Home Elena Seramik Yemek Takımı 16 Parça 4 Kişilik Yeşil-Turuncu</h4>
+                        <button class="w-full py-2 border border-primary/30 bg-primary/10 text-primary rounded-lg font-bold text-xs hover:bg-primary/20 transition-all active:scale-95">
+                            Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dummy sections to satisfy navigation -->
+        <section id="firmamiz" class="py-8 border-t border-white/5">
+            <h2 class="font-headline text-2xl font-bold text-on-surface mb-4">Firmamız</h2>
+            <p class="text-on-surface-variant">Edis E-ticaret olarak en kaliteli ürünleri sizlere sunmaktan gurur duyuyoruz.</p>
+        </section>
+
+        <section id="iletisim" class="py-8 border-t border-white/5">
+            <h2 class="font-headline text-2xl font-bold text-on-surface mb-4">İletişim</h2>
+            <p class="text-on-surface-variant">Bizimle iletişime geçmek için: info@ediseticaret.com</p>
+        </section>
+
+        <section id="markalarimiz" class="py-8 border-t border-white/5">
+            <h2 class="font-headline text-2xl font-bold text-on-surface mb-4">Markalarımız</h2>
+            <p class="text-on-surface-variant">English Home ve daha birçok marka çok yakında burada olacak.</p>
+        </section>
+    </main>
+
+    <!-- Bottom Mobile Nav -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-black/40 backdrop-blur-2xl rounded-t-3xl border-t border-white/10 shadow-2xl font-headline text-[11px] font-medium">
+        <a class="flex flex-col items-center justify-center text-white/40 px-5 py-2 hover:text-primary active:scale-90 transition-all" href="#urunler">
+            <span class="material-symbols-outlined">storefront</span>
+            <span>Ürünler</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-white/40 px-5 py-2 hover:text-primary active:scale-90 transition-all" href="#firmamiz">
+            <span class="material-symbols-outlined">info</span>
+            <span>Firma</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-white/40 px-5 py-2 hover:text-primary active:scale-90 transition-all" href="#iletisim">
+            <span class="material-symbols-outlined">call</span>
+            <span>İletişim</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-white/40 px-5 py-2 hover:text-primary active:scale-90 transition-all" href="#markalarimiz">
+            <span class="material-symbols-outlined">loyalty</span>
+            <span>Markalar</span>
+        </a>
+    </nav>
+</body>
+</html>
