@@ -80,66 +80,66 @@ for (const [categoryName, items] of Object.entries(categories)) {
     
     categoryHtml += `
         <div id="${catId}" class="mb-10 pt-8 category-section">
-            <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2 flex items-center gap-2">
+            <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-6 border-b-2 border-orange-200 pb-2 flex items-center gap-2">
                 <span class="material-symbols-outlined text-orange-500">category</span>
                 ${categoryName}
             </h3>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
     `;
     
     items.forEach(p => {
         categoryHtml += `
-                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 transform hover:-translate-y-2 relative z-10">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] md:shadow-[0_10px_40px_rgba(0,0,0,0.08)] flex flex-col group hover:shadow-[0_15px_50px_rgba(242,122,26,0.25)] transition-all duration-300 md:hover:-translate-y-2 relative z-10">
                     <div class="aspect-square relative overflow-hidden bg-white border-b border-orange-100 cursor-pointer" onclick="openModal('${p.id}')">
                         <img alt="${p.title}" class="w-full h-full object-cover transition-transform group-hover:scale-110 duration-500" src="${p.img}"/>
-                        <div class="absolute inset-0 border-2 border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
-                        <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-orange-600 px-3 py-1.5 rounded-xl text-sm font-extrabold shadow-sm">${p.price}</span>
+                        <div class="absolute inset-0 border border-orange-300/50 rounded-t-2xl pointer-events-none"></div>
+                        <span class="absolute top-2 right-2 md:top-3 md:right-3 bg-white/90 backdrop-blur-md text-orange-600 px-2 py-1 md:px-3 md:py-1.5 rounded-lg md:rounded-xl text-xs md:text-sm font-extrabold shadow-sm">${p.price}</span>
                     </div>
-                    <div class="p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
-                        <h4 class="font-headline text-sm font-semibold mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="${p.title}" onclick="openModal('${p.id}')">${p.title}</h4>
-                        <button onclick="openModal('${p.id}')" class="w-full py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-xl font-bold text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
-                            <span class="material-symbols-outlined text-[18px]">info</span>
-                            Detay İçin
+                    <div class="p-3 md:p-4 flex flex-col justify-between flex-grow rounded-b-2xl">
+                        <h4 class="font-headline text-xs md:text-sm font-semibold mb-3 md:mb-4 text-gray-800 line-clamp-2 cursor-pointer hover:text-orange-500 transition-colors" title="${p.title}" onclick="openModal('${p.id}')">${p.title}</h4>
+                        <button onclick="openModal('${p.id}')" class="w-full py-2 md:py-2.5 bg-orange-50 text-orange-600 border border-orange-200 rounded-lg md:rounded-xl font-bold text-xs md:text-sm hover:bg-orange-500 hover:text-white transition-all active:scale-95 flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[16px] md:text-[18px]">info</span>
+                            Detay
                         </button>
                     </div>
                 </div>`;
                 
         modalHtml += `
-        <div id="modal-${p.id}" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6">
+        <div id="modal-${p.id}" class="fixed inset-0 z-[100] hidden items-center justify-center p-0 md:p-6">
             <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closeModal('${p.id}')"></div>
             
-            <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col md:flex-row transform transition-all">
+            <div class="relative bg-white md:rounded-3xl shadow-2xl w-full h-full md:h-auto md:max-w-4xl md:max-h-[90vh] overflow-hidden flex flex-col md:flex-row transform transition-all">
                 <button onclick="closeModal('${p.id}')" class="absolute top-4 right-4 z-10 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors">
                     <span class="material-symbols-outlined">close</span>
                 </button>
                 
-                <div class="w-full md:w-1/2 bg-gray-50 p-6 flex items-center justify-center min-h-[300px]">
-                    <img src="${p.img}" alt="${p.title}" class="max-w-full max-h-[400px] object-cover drop-shadow-xl rounded-xl border border-orange-200" />
+                <div class="w-full h-1/2 md:h-auto md:w-1/2 bg-gray-50 p-4 md:p-6 flex items-center justify-center">
+                    <img src="${p.img}" alt="${p.title}" class="max-w-full max-h-full md:max-h-[400px] object-cover drop-shadow-xl rounded-xl border border-orange-200" />
                 </div>
                 
-                <div class="w-full md:w-1/2 p-6 md:p-10 flex flex-col overflow-y-auto">
-                    <div class="uppercase tracking-widest text-xs font-bold text-orange-500 mb-2">Trendyol Özel</div>
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4 leading-tight">${p.title}</h2>
-                    <div class="text-3xl font-extrabold text-orange-600 mb-6" id="price-${p.id}">${p.price}</div>
+                <div class="w-full h-1/2 md:h-auto md:w-1/2 p-5 md:p-10 flex flex-col overflow-y-auto bg-white">
+                    <div class="uppercase tracking-widest text-[10px] md:text-xs font-bold text-orange-500 mb-2">Trendyol Özel</div>
+                    <h2 class="text-lg md:text-2xl font-bold text-gray-900 mb-3 leading-tight">${p.title}</h2>
+                    <div class="text-2xl md:text-3xl font-extrabold text-orange-600 mb-5" id="price-${p.id}">${p.price}</div>
                     
                     <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                        <h3 class="text-base md:text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2">
                             <span class="material-symbols-outlined text-gray-400">description</span>
                             Ürün Özellikleri
                         </h3>
-                        <ul class="space-y-3 text-gray-600 text-sm bg-orange-50/50 p-5 rounded-2xl border border-orange-100">
+                        <ul class="space-y-2 text-gray-600 text-xs md:text-sm bg-orange-50/50 p-4 rounded-xl border border-orange-100">
                             ${p.details}
                             <li><strong>Garanti:</strong> 2 Yıl</li>
                             <li><strong>Kargo:</strong> Ücretsiz Kargo</li>
                         </ul>
                     </div>
                     
-                    <div class="mt-auto pt-6 border-t border-gray-100 flex gap-3">
-                        <button class="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3.5 rounded-xl font-bold text-base transition-colors shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2">
+                    <div class="mt-auto pt-4 border-t border-gray-100 flex gap-3 pb-8 md:pb-0">
+                        <button class="flex-1 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-bold text-sm md:text-base transition-colors shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2">
                             <span class="material-symbols-outlined">shopping_cart</span>
                             Sepete Ekle
                         </button>
-                        <button class="w-14 h-14 flex items-center justify-center bg-gray-100 hover:bg-red-50 text-gray-500 hover:text-red-500 rounded-xl transition-colors">
+                        <button class="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center bg-gray-100 hover:bg-red-50 text-gray-500 hover:text-red-500 rounded-xl transition-colors">
                             <span class="material-symbols-outlined">favorite</span>
                         </button>
                     </div>
@@ -159,17 +159,19 @@ const fullHtml = `<!DOCTYPE html>
 <html lang="tr" class="scroll-smooth">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     <title>Edis E-ticaret | Trendyol Özel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f2f3f5; }
-        ::-webkit-scrollbar { width: 8px; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f2f3f5; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #f27a1a; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #e06912; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
     <script>
         function openModal(id) {
@@ -185,35 +187,40 @@ const fullHtml = `<!DOCTYPE html>
             document.body.style.overflow = 'auto';
         }
 
-        // Kategori filtreleme fonksiyonu
         function filterCategory(catId) {
             const categories = ['soframutfak', 'evtekstili', 'elektriklievaletleri'];
             
             if (catId === 'all') {
                 categories.forEach(id => {
-                    document.getElementById(id).style.display = 'block';
+                    const el = document.getElementById(id);
+                    if(el) el.style.display = 'block';
                 });
             } else {
                 categories.forEach(id => {
-                    if (id === catId) {
-                        document.getElementById(id).style.display = 'block';
-                    } else {
-                        document.getElementById(id).style.display = 'none';
+                    const el = document.getElementById(id);
+                    if(el) {
+                        if (id === catId) {
+                            el.style.display = 'block';
+                        } else {
+                            el.style.display = 'none';
+                        }
                     }
                 });
             }
             
-            // Dropdown'ı gizle
+            // Dropdown kapat (Desktop için)
             const dd = document.getElementById('cat-dropdown');
-            dd.classList.remove('opacity-100', 'visible', 'translate-y-0');
-            dd.classList.add('opacity-0', 'invisible', 'translate-y-2');
+            if(dd) {
+                dd.classList.remove('opacity-100', 'visible', 'translate-y-0');
+                dd.classList.add('opacity-0', 'invisible', 'translate-y-2');
+            }
             
-            // Ürünler bölümüne kaydır
-            document.getElementById('urunler').scrollIntoView({ behavior: 'smooth' });
+            // İçeriğe kaydır
+            document.getElementById('urunler').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         
-        // Tıklama ile Dropdown açma/kapama
-        function toggleDropdown() {
+        function toggleDropdown(e) {
+            if(e) { e.preventDefault(); e.stopPropagation(); }
             const dd = document.getElementById('cat-dropdown');
             if(dd.classList.contains('opacity-0')) {
                 dd.classList.remove('opacity-0', 'invisible', 'translate-y-2');
@@ -223,22 +230,68 @@ const fullHtml = `<!DOCTYPE html>
                 dd.classList.remove('opacity-100', 'visible', 'translate-y-0');
             }
         }
+
+        // Tıklama dışı alanı yakalayıp menüyü kapatma
+        document.addEventListener('click', function(event) {
+            const dd = document.getElementById('cat-dropdown');
+            const btn = document.getElementById('cat-btn');
+            if (dd && btn && !btn.contains(event.target) && !dd.contains(event.target)) {
+                dd.classList.add('opacity-0', 'invisible', 'translate-y-2');
+                dd.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            }
+        });
     </script>
 </head>
-<body class="text-gray-800 antialiased min-h-screen flex flex-col">
-    <div class="bg-orange-500 text-white text-center py-2 text-sm font-semibold tracking-wide shadow-md relative z-50">
+<body class="text-gray-800 antialiased min-h-screen flex flex-col pb-16 md:pb-0">
+    <div class="bg-orange-500 text-white text-center py-1.5 md:py-2 text-[10px] md:text-sm font-semibold tracking-wide shadow-sm relative z-50">
         Süper Fırsat Günleri Başladı! Tüm Ürünlerde Ücretsiz Kargo
     </div>
 
-    <header class="bg-white sticky top-0 z-40 shadow-sm border-b border-gray-100">
+    <!-- Mobile Header -->
+    <header class="md:hidden bg-white sticky top-0 z-40 shadow-sm border-b border-gray-100">
+        <div class="px-4 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center gap-2" onclick="filterCategory('all'); window.scrollTo(0,0);">
+                <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">E</div>
+                <span class="font-extrabold text-xl text-gray-900 tracking-tight">edis<span class="text-orange-500">.</span></span>
+            </div>
+            <!-- Icons -->
+            <div class="flex items-center gap-4 text-gray-600">
+                <span class="material-symbols-outlined">notifications</span>
+                <div class="relative">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="absolute -top-1 -right-2 bg-orange-500 text-white text-[9px] w-4 h-4 flex items-center justify-center rounded-full font-bold">2</span>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Search Bar -->
+        <div class="px-4 pb-3">
+            <div class="relative w-full">
+                <input type="text" class="w-full bg-gray-100 border-transparent rounded-lg py-2 pl-4 pr-10 text-sm focus:bg-white focus:border-orange-500 border outline-none" placeholder="Ürün veya kategori ara...">
+                <button class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500">
+                    <span class="material-symbols-outlined text-[20px]">search</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Category Chips (Scrollable horizontally) -->
+        <div class="px-4 pb-3 overflow-x-auto hide-scrollbar flex gap-2">
+            <button onclick="filterCategory('all')" class="whitespace-nowrap px-4 py-1.5 bg-orange-500 text-white text-xs font-bold rounded-full shadow-sm">Tüm Ürünler</button>
+            <button onclick="filterCategory('soframutfak')" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full">Sofra & Mutfak</button>
+            <button onclick="filterCategory('evtekstili')" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full">Ev Tekstili</button>
+            <button onclick="filterCategory('elektriklievaletleri')" class="whitespace-nowrap px-4 py-1.5 bg-gray-100 text-gray-600 hover:bg-orange-100 hover:text-orange-600 text-xs font-bold rounded-full">Ev Aletleri</button>
+        </div>
+    </header>
+
+    <!-- Desktop Header -->
+    <header class="hidden md:block bg-white sticky top-0 z-40 shadow-sm border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="filterCategory('all'); window.scrollTo(0,0);">
                     <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-orange-500/30">E</div>
                     <span class="font-extrabold text-2xl text-gray-900 tracking-tight">edis<span class="text-orange-500">.</span></span>
                 </div>
                 
-                <div class="hidden md:flex flex-1 max-w-xl mx-8">
+                <div class="flex-1 max-w-xl mx-8">
                     <div class="relative w-full">
                         <input type="text" class="w-full bg-gray-50 border-gray-200 border rounded-full py-2.5 pl-5 pr-12 text-sm focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none" placeholder="Ürün, kategori veya marka ara...">
                         <button class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500">
@@ -248,37 +301,39 @@ const fullHtml = `<!DOCTYPE html>
                 </div>
 
                 <div class="flex items-center gap-6">
-                    <a href="#" class="hidden md:flex flex-col items-center text-gray-500 hover:text-orange-500 transition-colors">
+                    <a href="#" class="flex flex-col items-center text-gray-500 hover:text-orange-500 transition-colors">
                         <span class="material-symbols-outlined">person</span>
                         <span class="text-[10px] font-semibold mt-1">Giriş Yap</span>
                     </a>
-                    <a href="#" class="hidden md:flex flex-col items-center text-gray-500 hover:text-orange-500 transition-colors">
+                    <a href="#" class="flex flex-col items-center text-gray-500 hover:text-orange-500 transition-colors">
                         <span class="material-symbols-outlined">favorite</span>
                         <span class="text-[10px] font-semibold mt-1">Favorilerim</span>
                     </a>
                     <a href="#" class="flex flex-col items-center text-gray-500 hover:text-orange-500 transition-colors relative">
                         <span class="material-symbols-outlined">shopping_cart</span>
                         <span class="absolute -top-1 -right-2 bg-orange-500 text-white text-[9px] w-4 h-4 flex items-center justify-center rounded-full font-bold border-2 border-white">2</span>
-                        <span class="text-[10px] font-semibold mt-1 hidden md:block">Sepetim</span>
+                        <span class="text-[10px] font-semibold mt-1">Sepetim</span>
                     </a>
                 </div>
             </div>
         </div>
         
-        <nav class="bg-white relative z-30">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
-                <ul class="flex text-sm font-semibold text-gray-600 h-14 items-center whitespace-nowrap min-w-max gap-6 md:gap-8">
-                    <li><button onclick="filterCategory('all')" class="hover:text-orange-500 transition-colors text-orange-500 py-4 block">Tüm Ürünler</button></li>
+        <!-- Desktop Nav without overflow hidden to allow dropdown -->
+        <nav class="bg-white relative z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <ul class="flex text-sm font-semibold text-gray-600 h-14 items-center gap-8">
+                    <li><button onclick="filterCategory('all')" class="hover:text-orange-500 transition-colors text-orange-500 py-4 block font-bold">Tüm Ürünler</button></li>
                     
                     <!-- Kategoriler Menu with click dropdown -->
-                    <li class="relative group cursor-pointer py-4" onmouseenter="document.getElementById('cat-dropdown').classList.remove('opacity-0', 'invisible', 'translate-y-2'); document.getElementById('cat-dropdown').classList.add('opacity-100', 'visible', 'translate-y-0');" onmouseleave="document.getElementById('cat-dropdown').classList.add('opacity-0', 'invisible', 'translate-y-2'); document.getElementById('cat-dropdown').classList.remove('opacity-100', 'visible', 'translate-y-0');">
-                        <button onclick="toggleDropdown()" class="hover:text-orange-500 transition-colors flex items-center gap-1 font-semibold">
+                    <li class="relative py-4">
+                        <button id="cat-btn" onclick="toggleDropdown(event)" class="hover:text-orange-500 transition-colors flex items-center gap-1 font-bold">
                             Kategoriler <span class="material-symbols-outlined text-sm">expand_more</span>
                         </button>
-                        <div id="cat-dropdown" class="absolute top-[56px] left-0 w-56 bg-white border border-gray-100 shadow-2xl rounded-xl py-2 opacity-0 invisible transition-all duration-200 transform origin-top-left translate-y-2 z-50">
-                            <button onclick="filterCategory('soframutfak')" class="w-full text-left block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🍽️ Sofra & Mutfak</button>
-                            <button onclick="filterCategory('evtekstili')" class="w-full text-left block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🛋️ Ev Tekstili</button>
-                            <button onclick="filterCategory('elektriklievaletleri')" class="w-full text-left block px-5 py-2.5 text-sm text-gray-600 hover:bg-orange-50 hover:text-orange-600">🔌 Elektrikli Ev Aletleri</button>
+                        <!-- Dropdown -->
+                        <div id="cat-dropdown" class="absolute top-[56px] left-0 w-64 bg-white border border-gray-100 shadow-2xl rounded-xl py-3 opacity-0 invisible transition-all duration-200 transform origin-top-left translate-y-2 z-50">
+                            <button onclick="filterCategory('soframutfak')" class="w-full text-left px-5 py-3 text-sm text-gray-700 font-semibold hover:bg-orange-50 hover:text-orange-600 transition-colors border-b border-gray-50 flex items-center gap-2"><span class="text-lg">🍽️</span> Sofra & Mutfak</button>
+                            <button onclick="filterCategory('evtekstili')" class="w-full text-left px-5 py-3 text-sm text-gray-700 font-semibold hover:bg-orange-50 hover:text-orange-600 transition-colors border-b border-gray-50 flex items-center gap-2"><span class="text-lg">🛋️</span> Ev Tekstili</button>
+                            <button onclick="filterCategory('elektriklievaletleri')" class="w-full text-left px-5 py-3 text-sm text-gray-700 font-semibold hover:bg-orange-50 hover:text-orange-600 transition-colors flex items-center gap-2"><span class="text-lg">🔌</span> Elektrikli Ev Aletleri</button>
                         </div>
                     </li>
                     
@@ -290,16 +345,17 @@ const fullHtml = `<!DOCTYPE html>
         </nav>
     </header>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <div class="mb-12 rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.05)] relative bg-orange-50 border border-orange-100">
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 w-full">
+        <!-- Banner -->
+        <div class="mb-8 md:mb-12 rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.05)] relative bg-orange-50 border border-orange-100">
             <div class="absolute inset-0 bg-gradient-to-r from-orange-500 to-orange-400 opacity-10"></div>
-            <div class="px-8 py-12 md:py-16 relative z-10 flex flex-col md:flex-row items-center justify-between">
+            <div class="px-6 py-10 md:px-8 md:py-16 relative z-10 flex flex-col md:flex-row items-center justify-between">
                 <div class="text-center md:text-left mb-6 md:mb-0">
-                    <h2 class="text-3xl md:text-5xl font-extrabold text-gray-900 mb-4">Ev & Yaşam<br/><span class="text-orange-500 drop-shadow-sm">Bahar Fırsatları</span></h2>
-                    <p class="text-gray-600 font-medium text-lg max-w-md">Edis mağazasında muhteşem indirimleri kaçırmayın.</p>
+                    <h2 class="text-2xl md:text-5xl font-extrabold text-gray-900 mb-2 md:mb-4">Ev & Yaşam<br/><span class="text-orange-500 drop-shadow-sm">Bahar Fırsatları</span></h2>
+                    <p class="text-gray-600 font-medium text-sm md:text-lg max-w-md">Edis mağazasında muhteşem indirimleri kaçırmayın.</p>
                 </div>
                 <div>
-                    <button onclick="filterCategory('all')" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-[0_10px_30px_rgba(242,122,26,0.4)] transition-transform active:scale-95 hover:-translate-y-1">
+                    <button onclick="filterCategory('all')" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold shadow-[0_10px_30px_rgba(242,122,26,0.4)] transition-transform active:scale-95 md:hover:-translate-y-1 text-sm md:text-base">
                         Alışverişe Başla
                     </button>
                 </div>
@@ -311,8 +367,8 @@ const fullHtml = `<!DOCTYPE html>
         </section>
     </main>
     
-    <footer class="bg-white border-t border-gray-200 mt-12 pt-12 pb-24 md:pb-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-sm">
+    <footer class="bg-white border-t border-gray-200 mt-8 md:mt-12 pt-8 md:pt-12 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500 text-xs md:text-sm">
             <p>&copy; 2026 Edis E-ticaret. Tüm hakları saklıdır.</p>
         </div>
     </footer>
@@ -321,26 +377,29 @@ const fullHtml = `<!DOCTYPE html>
         ${modalHtml}
     </div>
 
-    <nav class="md:hidden fixed bottom-0 left-0 w-full z-40 bg-white border-t border-gray-200 pb-safe pt-2 px-4 flex justify-around shadow-[0_-10px_30px_rgba(0,0,0,0.08)] text-[10px] font-bold text-gray-500">
-        <button onclick="filterCategory('all')" class="flex flex-col items-center p-2 text-orange-500">
-            <span class="material-symbols-outlined text-2xl mb-1">home</span>
-            Anasayfa
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-white border-t border-gray-200 pb-safe px-2 flex justify-between shadow-[0_-10px_30px_rgba(0,0,0,0.08)]">
+        <button onclick="filterCategory('all'); window.scrollTo(0,0);" class="flex flex-col items-center flex-1 py-3 text-orange-500">
+            <span class="material-symbols-outlined text-[24px] mb-1">home</span>
+            <span class="text-[9px] font-bold">Anasayfa</span>
         </button>
-        <button onclick="toggleDropdown()" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
-            <span class="material-symbols-outlined text-2xl mb-1">category</span>
-            Kategoriler
+        <!-- On mobile, clicking Kategoriler scrolls to top where the chips are -->
+        <button onclick="window.scrollTo(0,0);" class="flex flex-col items-center flex-1 py-3 text-gray-500 hover:text-orange-500 transition-colors">
+            <span class="material-symbols-outlined text-[24px] mb-1">category</span>
+            <span class="text-[9px] font-bold">Kategoriler</span>
         </button>
-        <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
-            <span class="material-symbols-outlined text-2xl mb-1">sell</span>
-            İndirimler
+        <a href="#" class="flex flex-col items-center flex-1 py-3 text-gray-500 hover:text-orange-500 transition-colors relative">
+            <span class="material-symbols-outlined text-[24px] mb-1">shopping_cart</span>
+            <span class="absolute top-2 right-4 bg-orange-500 text-white text-[8px] w-3.5 h-3.5 flex items-center justify-center rounded-full font-bold">2</span>
+            <span class="text-[9px] font-bold">Sepetim</span>
         </a>
-        <a href="#" class="flex flex-col items-center p-2 hover:text-orange-500 transition-colors">
-            <span class="material-symbols-outlined text-2xl mb-1">person</span>
-            Hesabım
+        <a href="#" class="flex flex-col items-center flex-1 py-3 text-gray-500 hover:text-orange-500 transition-colors">
+            <span class="material-symbols-outlined text-[24px] mb-1">person</span>
+            <span class="text-[9px] font-bold">Hesabım</span>
         </a>
     </nav>
 </body>
 </html>`;
 
 fs.writeFileSync('C:\\Users\\Mustafa\\.gemini\\antigravity\\scratch\\edis\\index.html', fullHtml, 'utf-8');
-console.log('Successfully updated index.html with interactive dropdown filtering and new menu items.');
+console.log('Successfully updated index.html for ultimate mobile responsiveness and clickable dropdowns.');
